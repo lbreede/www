@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>VEX Ray Tracer #1: Initial Setup | Lennart Breede</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="No more procrastinating. After thinking about all the different ways to put this on the internet, I decided to start a blog, and this is my first blog post.
+In August 2019, I uploaded a video on my Vimeo channel, showcasing a ray tracer written in VEX inside SideFX&rsquo;s Houdini.
+I&rsquo;ve been meaning to put up some explanation, video tutorial, class, whatever you want to call it on how to write this thing.">
+    <meta name="generator" content="Hugo 0.128.0">
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/2021-01-17-vex-ray-tracer-01-initial-setup/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/2021-01-17-vex-ray-tracer-01-initial-setup/">
+  <meta property="og:site_name" content="Lennart Breede">
+  <meta property="og:title" content="VEX Ray Tracer #1: Initial Setup">
+  <meta property="og:description" content="No more procrastinating. After thinking about all the different ways to put this on the internet, I decided to start a blog, and this is my first blog post.
+In August 2019, I uploaded a video on my Vimeo channel, showcasing a ray tracer written in VEX inside SideFX’s Houdini.
+I’ve been meaning to put up some explanation, video tutorial, class, whatever you want to call it on how to write this thing.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-01-17T13:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-17T13:00:00+00:00">
+
+  <meta itemprop="name" content="VEX Ray Tracer #1: Initial Setup">
+  <meta itemprop="description" content="No more procrastinating. After thinking about all the different ways to put this on the internet, I decided to start a blog, and this is my first blog post.
+In August 2019, I uploaded a video on my Vimeo channel, showcasing a ray tracer written in VEX inside SideFX’s Houdini.
+I’ve been meaning to put up some explanation, video tutorial, class, whatever you want to call it on how to write this thing.">
+  <meta itemprop="datePublished" content="2021-01-17T13:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-17T13:00:00+00:00">
+  <meta itemprop="wordCount" content="300">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="VEX Ray Tracer #1: Initial Setup">
+  <meta name="twitter:description" content="No more procrastinating. After thinking about all the different ways to put this on the internet, I decided to start a blog, and this is my first blog post.
+In August 2019, I uploaded a video on my Vimeo channel, showcasing a ray tracer written in VEX inside SideFX’s Houdini.
+I’ve been meaning to put up some explanation, video tutorial, class, whatever you want to call it on how to write this thing.">
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        Lennart Breede
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1">VEX Ray Tracer #1: Initial Setup</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2021-01-17T13:00:00Z">January 17, 2021</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p>No more procrastinating. After thinking about all the different ways to put this on the internet, I decided to start a blog, and this is my first blog post.</p>
+<p>In August 2019, I uploaded a video on my Vimeo channel, showcasing a ray tracer written in VEX inside SideFX&rsquo;s Houdini.</p>
+<p><img src="https://vimeo.com/354673868" alt="" title="VEX RAY TRACER (+hip)"></p>
+<p>I&rsquo;ve been meaning to put up some explanation, video tutorial, class, whatever you want to call it on how to write this thing. Both to teach and to learn how to present ideas and improve on them upon reader interaction.</p>
+<p>So here it is, part one of my VEX ray tracer.</p>
+<hr>
+<p>We start with the initial setup and have to decide how to present the calculated image. I decided to use a projection plane.</p>
+<p><img src="01.001_object_setup.png" alt=""></p>
+<p>I&rsquo;m using a projection plane instead of working straight off the geometry because of the ease of scaling up and down resolution, and therefore performance, by dialling in the grid resolution to your desired size. It also means, that I can stay resolution independent for the objects in my scene.</p>
+<p>In this particular example, I have a camera set to a 4:3 aspect ratio looking straight onto a grid with the same aspect ratio (not necessarily the same resolution). I parented the plane to the camera in case we wanted to do some crazy camera movements down the line.</p>
+<p>Furthermore, I got a scene geometry where we can throw in whatever we want to see on the final image. A Utah teapot just seems right.</p>
+<p>And lastly, an empty geometry container in which the magic happens. Later on, we will go back to the scene to create some custom materials and maybe play with the Normals but for now this is how we are gonna start.</p>
+<hr>
+<p>| [[VEX Ray Tracer 02 - Plane Projection|Plane Projection]] &gt;</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://localhost:1313/" >
+    &copy;  Lennart Breede 2024 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

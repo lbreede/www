@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/posts/implementing-a-merkle-tree-in-python/</loc>
+    <loc>http://localhost:1313/posts/2024-07-02-implementing-a-merkle-tree-in-python/</loc>
     <lastmod>2024-07-02T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/</loc>
@@ -14,17 +14,20 @@
     <loc>http://localhost:1313/posts/my-first-post/</loc>
     <lastmod>2024-01-14T07:07:07+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/vex-ray-tracer-04---blinn-phong-shading/</loc>
+    <loc>http://localhost:1313/posts/2021-03-23-single-wrangle-challenge-helix-labs-spiral/</loc>
+    <lastmod>2021-03-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/2021-01-30-vex-ray-tracer-04-blinn-phong-shading/</loc>
     <lastmod>2021-01-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/vex-ray-tracer-03---supersampling-anti-aliasing/</loc>
+    <loc>http://localhost:1313/posts/2021-01-23-vex-ray-tracer-03-supersampling-anti-aliasing/</loc>
     <lastmod>2021-01-23T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/vex-ray-tracer-01---initial-setup/</loc>
-    <lastmod>2021-01-17T00:00:00+00:00</lastmod>
+    <loc>http://localhost:1313/posts/2021-01-17-vex-ray-tracer-02-plane-projection/</loc>
+    <lastmod>2021-01-17T16:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/vex-ray-tracer-02---plane-projection/</loc>
-    <lastmod>2021-01-17T00:00:00+00:00</lastmod>
+    <loc>http://localhost:1313/posts/2021-01-17-vex-ray-tracer-01-initial-setup/</loc>
+    <lastmod>2021-01-17T13:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
   </url><url>
