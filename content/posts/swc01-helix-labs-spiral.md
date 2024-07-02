@@ -1,6 +1,7 @@
 +++
 date = 2021-03-23
 title = 'Single Wrangle Challenge: Helix / Labs Spiral'
+tags = ['houdini', 'vex']
 +++
 Sometimes when I'm bored, waiting for renders or just have nothing better to do, I open an empty Houdini scene, put down a Detail Wrangle and see what I can create from scratch with just mathematics (and VEX of course). Some of the things I create the most are circles, waves and helices (plural of helix — yes, I had to look that up).
 
