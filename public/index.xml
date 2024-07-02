@@ -16,13 +16,6 @@
       <description>In this article, we will implement a Merkle Tree in Python, a data structure used extensively in Blockchain technology and other systems requiring data integrity verification. By the end of this article, you will understand how Merkle Trees work, their benefits, what the Merkle Root is, and how to implement all of this in Python.&#xA;The Merkle Tree A Merkle Tree is a binary hash tree that hashes a collection of data blocks so that any change in the original data results in entirely different values throughout the tree.</description>
     </item>
     <item>
-      <title>My First Post</title>
-      <link>http://localhost:1313/posts/my-first-post/</link>
-      <pubDate>Sun, 14 Jan 2024 07:07:07 +0100</pubDate>
-      <guid>http://localhost:1313/posts/my-first-post/</guid>
-      <description>Introduction This is bold text, and this is emphasized text.&#xA;Visit the Hugo website!</description>
-    </item>
-    <item>
       <title>Single Wrangle Challenge: Helix / Labs Spiral</title>
       <link>http://localhost:1313/posts/2021-03-23-single-wrangle-challenge-helix-labs-spiral/</link>
       <pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate>
@@ -31,30 +24,30 @@
     </item>
     <item>
       <title>VEX Ray Tracer #4: Blinn-Phong Shading</title>
-      <link>http://localhost:1313/posts/2021-01-30-vex-ray-tracer-04-blinn-phong-shading/</link>
+      <link>http://localhost:1313/posts/vrt04-blinn-phong/</link>
       <pubDate>Sat, 30 Jan 2021 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/2021-01-30-vex-ray-tracer-04-blinn-phong-shading/</guid>
+      <guid>http://localhost:1313/posts/vrt04-blinn-phong/</guid>
       <description>How I&amp;rsquo;ve been looking forward to this part. When I wrote this ray tracer for the first time, implementing the Blinn–Phong Reflection Model was one of my proudest achievements. Not because it&amp;rsquo;s complicated or anything (it&amp;rsquo;s actually pretty straightforward), but because it was the first time I translated a technical write-up and pseudo-code into something useful for my purpose. It was also the first time where I could&amp;rsquo;ve stopped and have a working product.</description>
     </item>
     <item>
       <title>VEX Ray Tracer #3: Supersampling Anti-Aliasing</title>
-      <link>http://localhost:1313/posts/2021-01-23-vex-ray-tracer-03-supersampling-anti-aliasing/</link>
+      <link>http://localhost:1313/posts/vrt03-supersampling/</link>
       <pubDate>Sat, 23 Jan 2021 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/2021-01-23-vex-ray-tracer-03-supersampling-anti-aliasing/</guid>
+      <guid>http://localhost:1313/posts/vrt03-supersampling/</guid>
       <description>And we&amp;rsquo;re back. In the last part, we projected three teapots onto our plane and gathered the colour from the teapot&amp;rsquo;s Cd attribute. But what you probably noticed is that our objects have very jagged/pixelated edges.&#xA;That is because every pixel sends only a single ray in a single direction and hitting a single point before it reports back.&#xA;That&amp;rsquo;s where Supersampling comes into play.&#xA;The general idea of supersampling or SSAA (Supersampling Anti-Aliasing) is to instead of using a single ray to gather scene data, using multiple with slightly different offsets and directions.</description>
     </item>
     <item>
       <title>VEX Ray Tracer #2: Plane Projection</title>
-      <link>http://localhost:1313/posts/2021-01-17-vex-ray-tracer-02-plane-projection/</link>
+      <link>http://localhost:1313/posts/vrt02-plane-projection/</link>
       <pubDate>Sun, 17 Jan 2021 16:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/2021-01-17-vex-ray-tracer-02-plane-projection/</guid>
+      <guid>http://localhost:1313/posts/vrt02-plane-projection/</guid>
       <description>Now let&amp;rsquo;s get into it. I read in all three elements (plane, camera and scene) into the empty ray_tracer geometry.&#xA;Make sure to choose the camOrigin Add SOP inside the camera object to only merge in a single point instead of the camera visualizer. Also, transform into the object for both the camOrigin and the plane since they probably will have object transforms.&#xA;We are also adding point normals to the scene in case the come in on vertices or not at all.</description>
     </item>
     <item>
       <title>VEX Ray Tracer #1: Initial Setup</title>
-      <link>http://localhost:1313/posts/2021-01-17-vex-ray-tracer-01-initial-setup/</link>
+      <link>http://localhost:1313/posts/vrt01-initial-setup/</link>
       <pubDate>Sun, 17 Jan 2021 13:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/2021-01-17-vex-ray-tracer-01-initial-setup/</guid>
+      <guid>http://localhost:1313/posts/vrt01-initial-setup/</guid>
       <description>No more procrastinating. After thinking about all the different ways to put this on the internet, I decided to start a blog, and this is my first blog post.&#xA;In August 2019, I uploaded a video on my Vimeo channel, showcasing a ray tracer written in VEX inside SideFX&amp;rsquo;s Houdini.&#xA;I&amp;rsquo;ve been meaning to put up some explanation, video tutorial, class, whatever you want to call it on how to write this thing.</description>
     </item>
   </channel>

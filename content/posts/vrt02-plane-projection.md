@@ -1,6 +1,4 @@
 +++
-# tags: article
-# author: Lennart Breede
 date = 2021-01-17T16:00:00
 title = 'VEX Ray Tracer #2: Plane Projection'
 +++
