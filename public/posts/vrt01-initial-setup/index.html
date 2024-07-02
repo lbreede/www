@@ -134,12 +134,12 @@ I’ve been meaning to put up some explanation, video tutorial, class, whatever 
     </header>
     <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p>No more procrastinating. After thinking about all the different ways to put this on the internet, I decided to start a blog, and this is my first blog post.</p>
 <p>In August 2019, I uploaded a video on my Vimeo channel, showcasing a ray tracer written in VEX inside SideFX&rsquo;s Houdini.</p>
-<p><img src="https://vimeo.com/354673868" alt="" title="VEX RAY TRACER (+hip)"></p>
+<p><img src="https://vimeo.com/354673868" alt="VEX RAY TRACER (+hip) on Vimeo" title="VEX RAY TRACER (+hip)"></p>
 <p>I&rsquo;ve been meaning to put up some explanation, video tutorial, class, whatever you want to call it on how to write this thing. Both to teach and to learn how to present ideas and improve on them upon reader interaction.</p>
 <p>So here it is, part one of my VEX ray tracer.</p>
 <hr>
 <p>We start with the initial setup and have to decide how to present the calculated image. I decided to use a projection plane.</p>
-<p><img src="01.001_object_setup.png" alt=""></p>
+<p><img src="01.001_object_setup.png" alt="Object Setup"></p>
 <p>I&rsquo;m using a projection plane instead of working straight off the geometry because of the ease of scaling up and down resolution, and therefore performance, by dialling in the grid resolution to your desired size. It also means, that I can stay resolution independent for the objects in my scene.</p>
 <p>In this particular example, I have a camera set to a 4:3 aspect ratio looking straight onto a grid with the same aspect ratio (not necessarily the same resolution). I parented the plane to the camera in case we wanted to do some crazy camera movements down the line.</p>
 <p>Furthermore, I got a scene geometry where we can throw in whatever we want to see on the final image. A Utah teapot just seems right.</p>

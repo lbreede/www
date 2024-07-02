@@ -17,9 +17,9 @@
     </item>
     <item>
       <title>Single Wrangle Challenge: Helix / Labs Spiral</title>
-      <link>http://localhost:1313/posts/2021-03-23-single-wrangle-challenge-helix-labs-spiral/</link>
+      <link>http://localhost:1313/posts/swc01-helix-labs-spiral/</link>
       <pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/2021-03-23-single-wrangle-challenge-helix-labs-spiral/</guid>
+      <guid>http://localhost:1313/posts/swc01-helix-labs-spiral/</guid>
       <description>Sometimes when I&amp;rsquo;m bored, waiting for renders or just have nothing better to do, I open an empty Houdini scene, put down a Detail Wrangle and see what I can create from scratch with just mathematics (and VEX of course). Some of the things I create the most are circles, waves and helices (plural of helix — yes, I had to look that up).&#xA;After the implementation of the SideFX Labs tools, all of the sudden, there was a definitive helix node called Labs Spiral with a bunch of nifty parameters to play with.</description>
     </item>
     <item>

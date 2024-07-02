@@ -8,13 +8,13 @@ Make sure to choose the camOrigin Add SOP inside the camera object to only merge
 
 We are also adding point normals to the scene in case the come in on vertices or not at all. Later, we might move that into the scene object, in case we want to mess with the cusp angle, until then, leave them all as default.
 
-![](02.001_object_merge.png)
+![Object Merge Setup](02.001_object_merge.png)
 
-Now we are going to turn the plane into a bunch of points. We will treat every primitive as the screens pixel, but since each primitive contains four points (as long as they're rectangles/squares) that are connected to other primitives, we need to create unique points for each primitive, before scaling them all down to a singular point. 
+Now we are going to turn the plane into a bunch of points. We will treat every primitive as the screens pixel, but since each primitive contains four points (as long as they're rectangles/squares) that are connected to other primitives, we need to create unique points for each primitive, before scaling them all down to a singular point.
 
 For that, we simply append a Facet SOP to the plane check Unique Points, followed by a Primitive SOP with Do Transformation enabled and scale set to 0, 0, 0. This will now take each primitive and scale it down to a single point along it's centroid. We append a Fuse SOP since now we have four points on top of each other. Un-check Remove Unused Points from Degenerate Primitives to keep a single point and remove all primitive data. We now have one point instead of each primitive.
 
-![](02.002_prim_to_point.png)
+![Primitive to Point conversion](02.002_prim_to_point.png)
 
 *Note the amount of points after the fuse and amount of primitives on the object merge.*
 
@@ -26,7 +26,7 @@ i@id = pointprims(0, @ptnum)[0];
 
 So what does this do? The pointprims() function returns an array with all primitive numbers each point is connected to. Since we appended the wrangle after the Facet, we know each point is only connected to a single primitive, therefore instead of writing an array with a single primitive number, we call the first (and only) index right away and save it in the integer attribute @id.
 
-![](02.003_create_prim_id.png)
+![Point ID attribute from primitives](02.003_create_prim_id.png)
 
 *You can see how we now have four points with the same ID. This means it worked.*
 
@@ -36,7 +36,7 @@ Fusing the points later in the chain will keep the attribute, leaving one point 
 
 Now we can finally start with our first piece of actual ray tracing. Create a Point Wrangle and connect all three elements to it. The "pixel points" go into the first input since it's what stores out results. I like to put the scene in the second input since we are going to use it the most. The camera goes into input three and we leave input four open for future lights.
 
-![](02.004_input_setup.png)
+![Ray tracer inputs setup](02.004_input_setup.png)
 
 First, we need to define a ray direction going out from each point which we will use to shoot them into the scene, gathering information.
 
@@ -79,7 +79,7 @@ if (hit_prim != -1) {
 
 From now on, we will stay in the first block of the if condition to save computing time since we can throw out any ray that doesn't hit anything and leave that black, aka {0,0,0};
 
-![](02.005_init_plane_proj.png)
+![Initial plane projection](02.005_init_plane_proj.png)
 
 *Points that "hit" the teapot are coloured white, the rest stays black.*
 
@@ -101,11 +101,11 @@ if (hit_prim != -1) {
 
 Since we initialize the colour vector with black, there is no need for the else statement anymore (unless you want to give empty space a different colour). When we do hit a primitive though, we collect it's colour at a particular uv coordinate. This will be particularly helpful with multicoloured objects or other attribute that need to be interpolated.
 
-![](02.006_gather_color.png)
+![Gather color](02.006_gather_color.png)
 
 The second thing we need to do, is to copy all the gathered information back onto our original plane. For that, all we need to do is use an *Attribute Copy* to copy over *Cd* with id set as the *Attribute to Match*.
 
-![](02.007_copy_over_color.png)
+![Copy color to primitives](02.007_copy_over_color.png)
 
 Hurray, we did it!
 
@@ -118,6 +118,4 @@ int hit_prim = intersect(1, pos, dir*maxraydist, hit_p, hit_uv);
 
 Now we can up-res the plane and see our teapots in glorious 320x240 px.
 
-![](02.008_final_upres.png)
-***
-< [[VEX Ray Tracer 01 - Initial Setup|Initial Setup]] | [[VEX Ray Tracer 03 - Supersampling Anti-Aliasing|Supersampling Anti-Aliasing]] >
+![Final Upres](02.008_final_upres.png)

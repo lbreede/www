@@ -4,9 +4,9 @@ title = 'VEX Ray Tracer #3: Supersampling Anti-Aliasing'
 +++
 And we're back. In the last part, we projected three teapots onto our plane and gathered the colour from the teapot's Cd attribute. But what you probably noticed is that our objects have very jagged/pixelated edges.
 
-![](03.001.png)
+![Initial setup after part two](03.001.png)
 
-That is because every pixel sends only a single ray in a single direction and hitting a single point before it reports back. 
+That is because every pixel sends only a single ray in a single direction and hitting a single point before it reports back.
 
 That's where Supersampling comes into play.
 
@@ -18,13 +18,13 @@ A problem I encountered the first time I wrote my ray tracer, is that if the res
 
 One last thing we need to do before we get to coding is choosing a supersampling pattern. We can see some examples of those on [Wikipedia](https://en.wikipedia.org/wiki/Supersampling#Supersampling_patterns) (the whole article is very useful and I encourage looking through it for the pictures alone).
 
-![](03.002.png)
+![Wikipedia supersampling patterns](03.002.png)
 
 I will show you how to build the grid and the Quincunx (⁙) pattern, plus a custom combination of the two and a little explanation why and when I choose the ones I choose (and if it really matters in the end).
 
 We did it. Now let's go into Houdini and write some VEX.
 
-![](03.003.png)
+![Previous primitive to point setup](03.003.png)
 
 You probably remember from part one that we took each primitive and scaled it down to a single point. Instead of doing that, let's remove the primitive and the fuse SOP and put down a primitive wrangle and do just that with a single line of code.
 
@@ -52,7 +52,7 @@ removeprim(0, @primnum, 1);
 
 Success, now we have one point per pixel with the corresponding ID to later copy over the colour.
 
-![](03.004.png)
+![New centroid extraction using VEX](03.004.png)
 
 We can now stay in this wrangle to create all the other sample points. Let's start with the Quincunx pattern. One point in the center and one point for each corner of the pixel (see picture above).
 
@@ -92,7 +92,7 @@ I also stored the primitive ID in the `primid` variable. I like to use variables
 
 Before we tackle the second pattern, let's set up the see this one in action first. We don't need to do anything to the ray tracer since it will just treat the new points as more pixel points.
 
-![](03.005.png)
+![Cornert-to-corner quincunx pattern](03.005.png)
 
 In the picture above you can see how some pixels now have multiple different color samples. Now we gotta average them out. Append an Add SOP to after the ray tracer. Navigate to the **Polygons** tab, toggle **By Group**, and set Add to **By Attribute** with Attribute Name ID. We now have a primitive drawn between all points that share the same id. We can now use that single primitive to store the average colour of each point by promoting the attribute.
 
@@ -102,13 +102,13 @@ Since earlier we decided to switch from a point to a primitive id, we need to pr
 
 Wire our new setup into the attribute copy and change the source and destination type to primitive and voilà, we copied the averaged colour to the primitives.
 
-![](03.006.png)
+![Anti-aliasing preview](03.006.png)
 
 Woah!
 
-Okay, let's go back to our sample points and build a little tool to compare and different methods. If you take another look at the patterns above, you can see that the corner points of the grid pattern is half way between the center point and the pixel's corner. It's also missing the center point. 
+Okay, let's go back to our sample points and build a little tool to compare and different methods. If you take another look at the patterns above, you can see that the corner points of the grid pattern is half way between the center point and the pixel's corner. It's also missing the center point.
 
-![](03.007.png)
+![Updated code to move corner points closer to the center](03.007.png)
 
 Let's go through this line after line.
 
@@ -140,10 +140,8 @@ removeprim(0, @primnum, 1);
 
 We create a float slider controlling the bias of linear interpolation inside the foreach-loop. I created it outside the foreach-loop so I can ignore it if it's set to zero since as you can see later is that zero means all four corner points are in the center of the pixel in additionally to the centerpt which makes calculation 5x as slow as it needs to be at this point. We could make that threshold even higher since setting it to 0.001 would trigger the loop and still not really give a different result. I will probably leave it at 0.5 and forget about it. Inside the loop, instead of setting the cornerpos to the pixels corner, we now interpolate between the center and the pixel corner with that bias. Setting it to 0.5 gives us the same result as the grid pattern in the image in the beginning. Now you can play around with the bias and see what you like the most. Lowering the bias makes the edge harder. Removing the center point doesn't make a huge difference but I like having the option.
 
-![](03.008.png)
+![Before and after demonstration](03.008.png)
 
 We did it! Very cool! Thanks for reading!
-***
-< [[VEX Ray Tracer 02 - Plane Projection|Plane Projection]] | [[VEX Ray Tracer 04 - Blinn-Phong Shading|Blinn-Phong Shading]] >
 ***
 References: [Supersampling - Wikipedia](https://en.wikipedia.org/wiki/Supersampling)

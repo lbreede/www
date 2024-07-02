@@ -48,7 +48,7 @@
   <meta itemprop="description" content="How I’ve been looking forward to this part. When I wrote this ray tracer for the first time, implementing the Blinn–Phong Reflection Model was one of my proudest achievements. Not because it’s complicated or anything (it’s actually pretty straightforward), but because it was the first time I translated a technical write-up and pseudo-code into something useful for my purpose. It was also the first time where I could’ve stopped and have a working product.">
   <meta itemprop="datePublished" content="2021-01-30T00:00:00+00:00">
   <meta itemprop="dateModified" content="2021-01-30T00:00:00+00:00">
-  <meta itemprop="wordCount" content="1718">
+  <meta itemprop="wordCount" content="1708">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="VEX Ray Tracer #4: Blinn-Phong Shading">
   <meta name="twitter:description" content="How I’ve been looking forward to this part. When I wrote this ray tracer for the first time, implementing the Blinn–Phong Reflection Model was one of my proudest achievements. Not because it’s complicated or anything (it’s actually pretty straightforward), but because it was the first time I translated a technical write-up and pseudo-code into something useful for my purpose. It was also the first time where I could’ve stopped and have a working product.">
@@ -127,11 +127,11 @@
     <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p>How I&rsquo;ve been looking forward to this part. When I wrote this ray tracer for the first time, implementing the Blinn–Phong Reflection Model was one of my proudest achievements. Not because it&rsquo;s complicated or anything (it&rsquo;s actually pretty straightforward), but because it was the first time I translated a technical write-up and pseudo-code into something useful for my purpose. It was also the first time where I could&rsquo;ve stopped and have a working product.</p>
 <p>Nothing too impressive in a time where real-time ray tracing is the cool kid on the block. But this was my kid, ugly and slow, but mine.</p>
 <p>At this point, I would like to share two links that really helped me understand how this whole thing works and how to implement it.</p>
-<p>The first links to a [YouTube video by Jeffrey Chastine about Lighting in OpenGL][https://www.youtube.com/watch?v=gFZqzVQrw84] where he goes over general lighting theory, Lambertian and Blinn-Phong reflectance.</p>
-<p>The second one links to the [Blinn-Phong reflection model Wikipedia page][https://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_reflection_model]. There are a couple of code snippets for various applications and as usual great images to show whats going on.</p>
+<p>The first links to a <a href="https://www.youtube.com/watch?v=gFZqzVQrw84">YouTube video by Jeffrey Chastine about Lighting in OpenGL</a> where he goes over general lighting theory, Lambertian and Blinn-Phong reflectance.</p>
+<p>The second one links to the <a href="https://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_reflection_model">Blinn-Phong reflection model Wikipedia page</a>. There are a couple of code snippets for various applications and as usual great images to show whats going on.</p>
 <hr>
 <p>We are going to start with some housekeeping by adding some controls to our scene objects to change &ldquo;materials&rdquo; on the fly and adding a light source, also with some properties. Not the most exciting thing in the world but it makes the grand reveal more rewarding when we move the light around or change the object&rsquo;s shininess.</p>
-<p><img src="04.001.png" alt=""></p>
+<p><img src="04.001.png" alt="Setup from part three"></p>
 <p>As you can see, I moved the scene setup into my ray tracing setup. I don&rsquo;t want to jump back and forth so much to add and remove objects, adjust the shader etc. Especially once we have many objects with many different materials.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>vector diffuse_color <span style="color:#f92672">=</span> <span style="color:#a6e22e">chv</span>(<span style="color:#e6db74">&#34;diffuse_color&#34;</span>);
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> use_point_color <span style="color:#f92672">=</span> <span style="color:#a6e22e">chi</span>(<span style="color:#e6db74">&#34;use_point_color&#34;</span>);
@@ -145,7 +145,7 @@
 <p>I&rsquo;m storing all these values in point attributes. The diffuse color will be stored in <code>Cd</code>, so we can keep the viewport preview.</p>
 <hr>
 <p>Next: a light source. For that, we just create a single point in space with two attributes. A colour and a strength value. Those two with the distance to the object will be enough to calculate the light.</p>
-<p><img src="04.002.png" alt=""></p>
+<p><img src="04.002.png" alt="Lights SOP setup"></p>
 <p>Pretty simple stuff. I used a sphere primitive instead of a point since they are basically the same thing for what we&rsquo;re using it for and it&rsquo;s easier to see in my screenshot. The sphere is followed by two lines of code setting the light colour and intensity (or power).</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">@</span>Cd <span style="color:#f92672">=</span> <span style="color:#a6e22e">chv</span>(<span style="color:#e6db74">&#34;light_color&#34;</span>);
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">@</span>light_power <span style="color:#f92672">=</span> <span style="color:#a6e22e">ch</span>(<span style="color:#e6db74">&#34;light_power&#34;</span>);
@@ -167,10 +167,10 @@
 </span></span><span style="display:flex;"><span>vector spec_color <span style="color:#f92672">=</span> <span style="color:#a6e22e">primuv</span>(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;spec_color&#34;</span>, hit_prim, hit_uv);
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> shininess <span style="color:#f92672">=</span> <span style="color:#a6e22e">primuv</span>(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;shininess&#34;</span>, hit_prim, hit_uv);
 </span></span></code></pre></div><p>We&rsquo;re reading in the light properties with the point function since we don&rsquo;t have to interpolate any values in between points like we might have to in the future for objects.</p>
-<p>The shading properties are read with the primuv like in <a href="https://lbreede.github.io/vex-ray-tracer/2021/01/17/plane-projection.html">Part 2</a>.</p>
+<p>The shading properties are read with the primuv like in <a href="/posts/vrt02-plane-projection/">Part 2</a>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>vector hit_nml <span style="color:#f92672">=</span> <span style="color:#a6e22e">primuv</span>(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;N&#34;</span>, hit_prim, hit_uv);
 </span></span></code></pre></div><p>We can also get the normal of the this way, which we will need in the next section.</p>
-<p><img src="04.004.png" alt=""></p>
+<p><img src="04.004.png" alt="Image 04.004"></p>
 <hr>
 <p>To calculate both the lambertian and the specular component, we need to calculate four normalized vectors with the data we got. We need:</p>
 <ol>
@@ -187,7 +187,7 @@
 <p>The half direction (H), which is the half vector (in between) the view direction and the light direction.</p>
 </li>
 </ol>
-<p><img src="04.003.png" alt=""></p>
+<p><img src="04.003.png" alt="Blinn-phong diagram"></p>
 <p>Ignore the reflection vector (R). It&rsquo;s being used for the classic Phong shading method.</p>
 <p>Extra credit for whomever builds a toggle to switch between both models.</p>
 <hr>
@@ -205,7 +205,7 @@
 </span></span></code></pre></div><p>Since a dot product returns values between -1 and 1, we use the max function as a lower-end clamp. Now the value is somewhere between 0 and 1.</p>
 <p>And at last, the final colour.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>color <span style="color:#f92672">=</span> diffuse_color <span style="color:#f92672">*</span> lambertian <span style="color:#f92672">*</span> light_color <span style="color:#f92672">*</span> light_power <span style="color:#f92672">/</span> distance;
-</span></span></code></pre></div><p><img src="04.005.png" alt=""></p>
+</span></span></code></pre></div><p><img src="04.005.png" alt="Lambertian shading preview"></p>
 <p>And that&rsquo;s it. Now we have three perfectly rough teapots, floating through space.</p>
 <p>We can now start playing with the colours of the objects and the light or the position of the light. The scene should still be small enough to give you real-time feedback.</p>
 <hr>
@@ -229,28 +229,26 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>specular <span style="color:#f92672">=</span> spec_angle;
 </span></span></code></pre></div><p>We use a similar formula as for the Lambertian.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>color <span style="color:#f92672">=</span> diffuse_color <span style="color:#f92672">*</span> lambertian <span style="color:#f92672">*</span> light_color <span style="color:#f92672">*</span> light_power <span style="color:#f92672">/</span> distance
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">+</span> spec_color <span style="color:#f92672">*</span> specular <span style="color:#f92672">*</span> light_color <span style="color:#f92672">*</span> light_power <span style="color:#f92672">/</span> distance;
-</span></span></code></pre></div><p><img src="04.006.png" alt=""></p>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">+</span> spec_color <span style="color:#f92672">*</span> specular <span style="color:#f92672">*</span> light_color <span style="color:#f92672">*</span> light_power <span style="color:#f92672">/</span> distance;
+</span></span></code></pre></div><p><img src="04.006.png" alt="Rough-shiny preview"></p>
 <p>We are very close. But as you can see, the highlights are really blown out and the reflection is very broad/rough-looking.</p>
 <p>That&rsquo;s because we have not yet introduced our shininess value. It serves as the exponent of our specular angle. So instead of writing the spec angle to my specular, let&rsquo;s use the power function on it instead.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>specular <span style="color:#f92672">=</span> <span style="color:#a6e22e">pow</span>(spec_angle, shininess);
 </span></span></code></pre></div><p>The reason why we have to use the pow function here, is because the shininess value can be a float instead of and integer, plus it&rsquo;s encouraged to change the value to taste.</p>
-<p><img src="04.007.png" alt=""></p>
+<p><img src="04.007.png" alt="Sharp-shiny preview"></p>
 <p>This looks more like it.</p>
 <p>And that&rsquo;s it. That&rsquo;s the whole thing. Not too hard right?</p>
 <hr>
 <p>Important addition, when researching this topic, you might stumble across two additional components besides the lambert and the specular. Ambient and emission. Those are basically two additional colours added on top of the final colour formula. One is for filling in these deep black shadows and the other to create a &ldquo;glow&rdquo;. I don&rsquo;t like the results I get with the ambient since it uniformly lifts the material colour linearly toward the set value. I prefer adding additional weaker lights to fill in those areas. The emit works sometimes if used in the right context. Both components do not take lights into account. If you do choose to add them, here is the final formula:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>color <span style="color:#f92672">=</span> diffuse_color <span style="color:#f92672">*</span> lambertian <span style="color:#f92672">*</span> light_color <span style="color:#f92672">*</span> light_power <span style="color:#f92672">/</span> distance
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">+</span> spec_color    <span style="color:#f92672">*</span> specular   <span style="color:#f92672">*</span> light_color <span style="color:#f92672">*</span> light_power <span style="color:#f92672">/</span> distance
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">+</span> emit_color
-</span></span><span style="display:flex;"><span>	  <span style="color:#f92672">+</span> ambient_color;
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">+</span> spec_color    <span style="color:#f92672">*</span> specular   <span style="color:#f92672">*</span> light_color <span style="color:#f92672">*</span> light_power <span style="color:#f92672">/</span> distance
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">+</span> emit_color
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">+</span> ambient_color;
 </span></span></code></pre></div><hr>
 <p>I encourage everyone now to play with the shading and light properties.</p>
 <p>For example, changing the shininess value to 1 is equivalent to setting the specular to the raw spec angle without the power function and see how the specular highlight behaves when increasing it again.</p>
-<p><img src="04.008.png" alt=""></p>
+<p><img src="04.008.png" alt="Final preview"></p>
 <p>Final result with extra test geo.</p>
-<hr>
-<p>&lt; [[VEX Ray Tracer 03 - Supersampling Anti-Aliasing|Supersampling Anti-Aliasing]] |</p>
 <ul class="pa0">
   
 </ul>

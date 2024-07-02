@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Single Wrangle Challenge: Helix / Labs Spiral | Lennart Breede</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Sometimes when I&rsquo;m bored, waiting for renders or just have nothing better to do, I open an empty Houdini scene, put down a Detail Wrangle and see what I can create from scratch with just mathematics (and VEX of course). Some of the things I create the most are circles, waves and helices (plural of helix — yes, I had to look that up).
+After the implementation of the SideFX Labs tools, all of the sudden, there was a definitive helix node called Labs Spiral with a bunch of nifty parameters to play with.">
+    <meta name="generator" content="Hugo 0.128.0">
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/swc01-helix-labs-spiral/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/swc01-helix-labs-spiral/">
+  <meta property="og:site_name" content="Lennart Breede">
+  <meta property="og:title" content="Single Wrangle Challenge: Helix / Labs Spiral">
+  <meta property="og:description" content="Sometimes when I’m bored, waiting for renders or just have nothing better to do, I open an empty Houdini scene, put down a Detail Wrangle and see what I can create from scratch with just mathematics (and VEX of course). Some of the things I create the most are circles, waves and helices (plural of helix — yes, I had to look that up).
+After the implementation of the SideFX Labs tools, all of the sudden, there was a definitive helix node called Labs Spiral with a bunch of nifty parameters to play with.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-03-23T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-03-23T00:00:00+00:00">
+
+  <meta itemprop="name" content="Single Wrangle Challenge: Helix / Labs Spiral">
+  <meta itemprop="description" content="Sometimes when I’m bored, waiting for renders or just have nothing better to do, I open an empty Houdini scene, put down a Detail Wrangle and see what I can create from scratch with just mathematics (and VEX of course). Some of the things I create the most are circles, waves and helices (plural of helix — yes, I had to look that up).
+After the implementation of the SideFX Labs tools, all of the sudden, there was a definitive helix node called Labs Spiral with a bunch of nifty parameters to play with.">
+  <meta itemprop="datePublished" content="2021-03-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-03-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="535">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Single Wrangle Challenge: Helix / Labs Spiral">
+  <meta name="twitter:description" content="Sometimes when I’m bored, waiting for renders or just have nothing better to do, I open an empty Houdini scene, put down a Detail Wrangle and see what I can create from scratch with just mathematics (and VEX of course). Some of the things I create the most are circles, waves and helices (plural of helix — yes, I had to look that up).
+After the implementation of the SideFX Labs tools, all of the sudden, there was a definitive helix node called Labs Spiral with a bunch of nifty parameters to play with.">
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        Lennart Breede
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1">Single Wrangle Challenge: Helix / Labs Spiral</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2021-03-23T00:00:00Z">March 23, 2021</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p>Sometimes when I&rsquo;m bored, waiting for renders or just have nothing better to do, I open an empty Houdini scene, put down a Detail Wrangle and see what I can create from scratch with just mathematics (and VEX of course). Some of the things I create the most are circles, waves and helices (plural of helix — yes, I had to look that up).</p>
+<p>After the implementation of the <a href="https://www.sidefx.com/products/sidefx-labs/">SideFX Labs</a> tools, all of the sudden, there was a definitive helix node called Labs Spiral with a bunch of nifty parameters to play with. For example, two sets of radii (that one I knew), a height parameter, and a helix count for multiple helices evenly rotated to create more complex shapes.</p>
+<p>Since I now had a baseline of parameters a helix tool was supposed have, I got to work rebuilding it in one single wrangle. Half way through writing it, I realized that, since it&rsquo;s a Labs node, I could probably dive inside and see how it was built. And sure enough, I could, and I was even happier when I saw that it was built with eight nodes, six of them being high-level ones, e.g. <em>Line, Transform, Copy and Transform</em>, etc.</p>
+<p>Here is the final result:</p>
+<p><img src="helix_demo.gif" alt="Helix Demo"></p>
+<p>It&rsquo;s not quite perfect to be completely honest.</p>
+<p>My rotation and scale are in the wrong transform order, meaning I&rsquo;m rotating first, then scaling, not vice versa, which is a problem for Future-Lennart to fix.</p>
+<p>Furthermore, there is a Resample inside the Labs version which creates nicer spacing between points, but I&rsquo;d rather leave that to myself to append and counting this change as a win.</p>
+<p>In the end, I draw my own line when to stop. And done is, as we all know, better than perfect.</p>
+<p>Below is the code for anyone who is interested or stuck at their own approach.</p>
+<p>It&rsquo;s basically two loops, one for the helix count and the other one for creating circles with different radii, therefore making a helix.</p>
+<p>Please reach out for questions, your own approaches, or requests for the next Single Wrangle Challenge (SWC? Also taking series name requests.).</p>
+<p>Code edits:</p>
+<p>2021-03-25: instead of creating a polyline on every j-iteration between the previous and the current point, I store all created points in an array and create the polyline at the end using that array. Resulting in a single primitive per spiral.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>vector2 radius <span style="color:#f92672">=</span> <span style="color:#a6e22e">chu</span>(<span style="color:#e6db74">&#34;radius&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> height <span style="color:#f92672">=</span> <span style="color:#a6e22e">ch</span>(<span style="color:#e6db74">&#34;height&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> loops <span style="color:#f92672">=</span> <span style="color:#a6e22e">ch</span>(<span style="color:#e6db74">&#34;loops&#34;</span>);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> rotation <span style="color:#f92672">=</span> <span style="color:#a6e22e">ch</span>(<span style="color:#e6db74">&#34;rotation&#34;</span>);
+</span></span><span style="display:flex;"><span>vector2 scale <span style="color:#f92672">=</span> <span style="color:#a6e22e">chu</span>(<span style="color:#e6db74">&#34;scale&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> points <span style="color:#f92672">=</span> <span style="color:#a6e22e">chi</span>(<span style="color:#e6db74">&#34;points&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> helix_count <span style="color:#f92672">=</span> <span style="color:#a6e22e">chi</span>(<span style="color:#e6db74">&#34;helix_count&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> pt;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> u, v, n, tau <span style="color:#f92672">=</span> PI <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>, rad, x, y, z;
+</span></span><span style="display:flex;"><span>vector pos;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> helix_count; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    u <span style="color:#f92672">=</span> <span style="color:#66d9ef">float</span>(i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#66d9ef">float</span>(helix_count);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> pts[];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> points; j<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        v <span style="color:#f92672">=</span> <span style="color:#66d9ef">float</span>(j) <span style="color:#f92672">/</span> <span style="color:#66d9ef">float</span>(points <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        n <span style="color:#f92672">=</span> tau <span style="color:#f92672">*</span> v <span style="color:#f92672">*</span> loops <span style="color:#f92672">+</span> tau <span style="color:#f92672">*</span> (<span style="color:#f92672">-</span>rotation <span style="color:#f92672">/</span> <span style="color:#ae81ff">360</span>) <span style="color:#f92672">+</span> tau <span style="color:#f92672">*</span> u;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        rad <span style="color:#f92672">=</span> <span style="color:#a6e22e">lerp</span>(radius[<span style="color:#ae81ff">0</span>], radius[<span style="color:#ae81ff">1</span>], v);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> <span style="color:#a6e22e">cos</span>(n) <span style="color:#f92672">*</span> rad <span style="color:#f92672">*</span> scale[<span style="color:#ae81ff">0</span>];
+</span></span><span style="display:flex;"><span>        y <span style="color:#f92672">=</span> height <span style="color:#f92672">*</span> v;
+</span></span><span style="display:flex;"><span>        z <span style="color:#f92672">=</span> <span style="color:#a6e22e">sin</span>(n) <span style="color:#f92672">*</span> rad <span style="color:#f92672">*</span> scale[<span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        pos <span style="color:#f92672">=</span> <span style="color:#a6e22e">set</span>(x, y, z);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        pt <span style="color:#f92672">=</span> <span style="color:#a6e22e">addpoint</span>(<span style="color:#ae81ff">0</span>, pos); 
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">append</span>(pts, pt);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">addprim</span>(<span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;polyline&#34;</span>, pts);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://localhost:1313/" >
+    &copy;  Lennart Breede 2024 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

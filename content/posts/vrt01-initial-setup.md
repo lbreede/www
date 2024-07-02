@@ -6,7 +6,7 @@ No more procrastinating. After thinking about all the different ways to put this
 
 In August 2019, I uploaded a video on my Vimeo channel, showcasing a ray tracer written in VEX inside SideFX's Houdini.
 
-![](https://vimeo.com/354673868 "VEX RAY TRACER (+hip)")
+![VEX RAY TRACER (+hip) on Vimeo](https://vimeo.com/354673868 "VEX RAY TRACER (+hip)")
 
 I've been meaning to put up some explanation, video tutorial, class, whatever you want to call it on how to write this thing. Both to teach and to learn how to present ideas and improve on them upon reader interaction.
 
@@ -16,7 +16,7 @@ So here it is, part one of my VEX ray tracer.
 
 We start with the initial setup and have to decide how to present the calculated image. I decided to use a projection plane.
 
-![](01.001_object_setup.png)
+![Object Setup](01.001_object_setup.png)
 
 I'm using a projection plane instead of working straight off the geometry because of the ease of scaling up and down resolution, and therefore performance, by dialling in the grid resolution to your desired size. It also means, that I can stay resolution independent for the objects in my scene.
 

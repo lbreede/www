@@ -8,13 +8,13 @@ Nothing too impressive in a time where real-time ray tracing is the cool kid on 
 
 At this point, I would like to share two links that really helped me understand how this whole thing works and how to implement it.
 
-The first links to a [YouTube video by Jeffrey Chastine about Lighting in OpenGL][https://www.youtube.com/watch?v=gFZqzVQrw84] where he goes over general lighting theory, Lambertian and Blinn-Phong reflectance.
+The first links to a [YouTube video by Jeffrey Chastine about Lighting in OpenGL](https://www.youtube.com/watch?v=gFZqzVQrw84) where he goes over general lighting theory, Lambertian and Blinn-Phong reflectance.
 
-The second one links to the [Blinn-Phong reflection model Wikipedia page][https://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_reflection_model]. There are a couple of code snippets for various applications and as usual great images to show whats going on.
+The second one links to the [Blinn-Phong reflection model Wikipedia page](https://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_reflection_model). There are a couple of code snippets for various applications and as usual great images to show whats going on.
 ***
 We are going to start with some housekeeping by adding some controls to our scene objects to change "materials" on the fly and adding a light source, also with some properties. Not the most exciting thing in the world but it makes the grand reveal more rewarding when we move the light around or change the object's shininess.
 
-![](04.001.png)
+![Setup from part three](04.001.png)
 
 As you can see, I moved the scene setup into my ray tracing setup. I don't want to jump back and forth so much to add and remove objects, adjust the shader etc. Especially once we have many objects with many different materials.
 
@@ -35,7 +35,7 @@ I'm storing all these values in point attributes. The diffuse color will be stor
 ***
 Next: a light source. For that, we just create a single point in space with two attributes. A colour and a strength value. Those two with the distance to the object will be enough to calculate the light.
 
-![](04.002.png)
+![Lights SOP setup](04.002.png)
 
 Pretty simple stuff. I used a sphere primitive instead of a point since they are basically the same thing for what we're using it for and it's easier to see in my screenshot. The sphere is followed by two lines of code setting the light colour and intensity (or power).
 
@@ -72,7 +72,7 @@ float shininess = primuv(1, "shininess", hit_prim, hit_uv);
 
 We're reading in the light properties with the point function since we don't have to interpolate any values in between points like we might have to in the future for objects.
 
-The shading properties are read with the primuv like in [Part 2](https://lbreede.github.io/vex-ray-tracer/2021/01/17/plane-projection.html).
+The shading properties are read with the primuv like in [Part 2](/posts/vrt02-plane-projection/).
 
 ```c
 vector hit_nml = primuv(1, "N", hit_prim, hit_uv);
@@ -80,7 +80,7 @@ vector hit_nml = primuv(1, "N", hit_prim, hit_uv);
 
 We can also get the normal of the this way, which we will need in the next section.
 
-![](04.004.png)
+![Image 04.004](04.004.png)
 ***
 To calculate both the lambertian and the specular component, we need to calculate four normalized vectors with the data we got. We need:
 
@@ -92,7 +92,7 @@ To calculate both the lambertian and the specular component, we need to calculat
 
 4. The half direction (H), which is the half vector (in between) the view direction and the light direction.
 
-![](04.003.png)
+![Blinn-phong diagram](04.003.png)
 
 Ignore the reflection vector (R). It's being used for the classic Phong shading method.
 
@@ -131,7 +131,7 @@ And at last, the final colour.
 color = diffuse_color * lambertian * light_color * light_power / distance;
 ```
 
-![](04.005.png)
+![Lambertian shading preview](04.005.png)
 
 And that's it. Now we have three perfectly rough teapots, floating through space.
 
@@ -185,10 +185,10 @@ We use a similar formula as for the Lambertian.
 
 ```c
 color = diffuse_color * lambertian * light_color * light_power / distance
-	+ spec_color * specular * light_color * light_power / distance;
+      + spec_color * specular * light_color * light_power / distance;
 ```
 
-![](04.006.png)
+![Rough-shiny preview](04.006.png)
 
 We are very close. But as you can see, the highlights are really blown out and the reflection is very broad/rough-looking.
 
@@ -200,9 +200,9 @@ specular = pow(spec_angle, shininess);
 
 The reason why we have to use the pow function here, is because the shininess value can be a float instead of and integer, plus it's encouraged to change the value to taste.
 
-![](04.007.png)
+![Sharp-shiny preview](04.007.png)
 
-This looks more like it. 
+This looks more like it.
 
 And that's it. That's the whole thing. Not too hard right?
 ***
@@ -210,9 +210,9 @@ Important addition, when researching this topic, you might stumble across two ad
 
 ```c
 color = diffuse_color * lambertian * light_color * light_power / distance
-	  + spec_color    * specular   * light_color * light_power / distance
-	  + emit_color
-	  + ambient_color;
+      + spec_color    * specular   * light_color * light_power / distance
+      + emit_color
+      + ambient_color;
 ```
 
 ***
@@ -221,8 +221,6 @@ I encourage everyone now to play with the shading and light properties.
 
 For example, changing the shininess value to 1 is equivalent to setting the specular to the raw spec angle without the power function and see how the specular highlight behaves when increasing it again.
 
-![](04.008.png)
+![Final preview](04.008.png)
 
 Final result with extra test geo.
-***
-< [[VEX Ray Tracer 03 - Supersampling Anti-Aliasing|Supersampling Anti-Aliasing]] | 
