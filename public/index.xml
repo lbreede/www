@@ -16,6 +16,13 @@
       <description>In this article, we will implement a Merkle Tree in Python, a data structure used extensively in Blockchain technology and other systems requiring data integrity verification. By the end of this article, you will understand how Merkle Trees work, their benefits, what the Merkle Root is, and how to implement all of this in Python.&#xA;The Merkle Tree A Merkle Tree is a binary hash tree that hashes a collection of data blocks so that any change in the original data results in entirely different values throughout the tree.</description>
     </item>
     <item>
+      <title>My First Post</title>
+      <link>http://localhost:1313/posts/my-first-post/</link>
+      <pubDate>Sun, 14 Jan 2024 07:07:07 +0100</pubDate>
+      <guid>http://localhost:1313/posts/my-first-post/</guid>
+      <description>Introduction This is bold text, and this is emphasized text.&#xA;Visit the Hugo website!</description>
+    </item>
+    <item>
       <title>Single Wrangle Challenge: Helix / Labs Spiral</title>
       <link>http://localhost:1313/posts/2021-03-23-single-wrangle-challenge-helix-labs-spiral/</link>
       <pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate>

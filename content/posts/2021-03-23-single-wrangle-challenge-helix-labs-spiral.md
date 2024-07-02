@@ -10,7 +10,7 @@ Since I now had a baseline of parameters a helix tool was supposed have, I got t
 
 Here is the final result:
 
-![](/helix_demo.gif)
+![Helix Demo](helix_demo.gif)
 
 It's not quite perfect to be completely honest.
 

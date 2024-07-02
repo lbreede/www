@@ -132,7 +132,7 @@ After the implementation of the SideFX Labs tools, all of the sudden, there was 
 <p>After the implementation of the <a href="https://www.sidefx.com/products/sidefx-labs/">SideFX Labs</a> tools, all of the sudden, there was a definitive helix node called Labs Spiral with a bunch of nifty parameters to play with. For example, two sets of radii (that one I knew), a height parameter, and a helix count for multiple helices evenly rotated to create more complex shapes.</p>
 <p>Since I now had a baseline of parameters a helix tool was supposed have, I got to work rebuilding it in one single wrangle. Half way through writing it, I realized that, since it&rsquo;s a Labs node, I could probably dive inside and see how it was built. And sure enough, I could, and I was even happier when I saw that it was built with eight nodes, six of them being high-level ones, e.g. <em>Line, Transform, Copy and Transform</em>, etc.</p>
 <p>Here is the final result:</p>
-<p><img src="/helix_demo.gif" alt=""></p>
+<p><img src="helix_demo.gif" alt="Helix Demo"></p>
 <p>It&rsquo;s not quite perfect to be completely honest.</p>
 <p>My rotation and scale are in the wrong transform order, meaning I&rsquo;m rotating first, then scaling, not vice versa, which is a problem for Future-Lennart to fix.</p>
 <p>Furthermore, there is a Resample inside the Labs version which creates nicer spacing between points, but I&rsquo;d rather leave that to myself to append and counting this change as a win.</p>
