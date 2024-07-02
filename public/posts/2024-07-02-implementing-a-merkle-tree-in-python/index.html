@@ -297,6 +297,7 @@ Most of the change happens in the for-loop.</p>
 </span></span><span style="display:flex;"><span>tx_nodes <span style="color:#f92672">=</span> [MerkleNode(tx<span style="color:#f92672">.</span>to_hash()) <span style="color:#66d9ef">for</span> tx <span style="color:#f92672">in</span> txs]
 </span></span><span style="display:flex;"><span>tx_tree <span style="color:#f92672">=</span> get_merkle_tree(tx_nodes)
 </span></span></code></pre></div><p>We create our transactions again and wrap their hashes into nodes. We then pass them into our new function and store the result in the variable <code>tx_tree</code>.</p>
+<p><img src="/merkle_tree_before.png" alt="Merkle Tree before"></p>
 <pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD;
 A[b447...cd9e] --&gt; B[60e8...c485];
 A --&gt; C[3fe5...8cdf];
@@ -304,6 +305,7 @@ B --&gt; 97f2...3c58
 B --&gt; 7d01...c788
 C --&gt; e3d4...9f7f
 </code></pre><p>Revisiting our previous chapter, the verification process begins with the root node&rsquo;s hash value, which starts with <code>b447</code> and ends with <code>cd9e</code>. Equally important are the &rsquo;three leaf nodes&rsquo; at the bottom, which store the original hash representation of our three transactions. The tree&rsquo;s benefit lies in its ability to display all the branch nodes. Let&rsquo;s now proceed to create another tree with a slightly modified transaction.</p>
+<p><img src="/merkle_tree_after.png" alt="Merkle Tree after"></p>
 <pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
 A[9e3d...6bf9] --&gt; B[0d16...387c];
 A --&gt; C[3fe5...8cdf];

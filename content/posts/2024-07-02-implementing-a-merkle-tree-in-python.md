@@ -233,6 +233,8 @@ tx_tree = get_merkle_tree(tx_nodes)
 
 We create our transactions again and wrap their hashes into nodes. We then pass them into our new function and store the result in the variable `tx_tree`.
 
+![Merkle Tree before](/merkle_tree_before.png)
+
 ```mermaid  
 graph TD;
 A[b447...cd9e] --> B[60e8...c485];
@@ -243,6 +245,8 @@ C --> e3d4...9f7f
 ```
 
 Revisiting our previous chapter, the verification process begins with the root node's hash value, which starts with `b447` and ends with `cd9e`. Equally important are the 'three leaf nodes' at the bottom, which store the original hash representation of our three transactions. The tree's benefit lies in its ability to display all the branch nodes. Let's now proceed to create another tree with a slightly modified transaction.
+
+![Merkle Tree after](/merkle_tree_after.png)
 
 ```mermaid
 graph TD
