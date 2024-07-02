@@ -10,7 +10,7 @@ Since I now had a baseline of parameters a helix tool was supposed have, I got t
 
 Here is the final result:
 
-![](helix_demo.gif)
+![](/helix_demo.gif)
 
 It's not quite perfect to be completely honest.
 
@@ -26,7 +26,7 @@ It's basically two loops, one for the helix count and the other one for creating
 
 Please reach out for questions, your own approaches, or requests for the next Single Wrangle Challenge (SWC? Also taking series name requests.).
 
-Code edits: 
+Code edits:
 
 2021-03-25: instead of creating a polyline on every j-iteration between the previous and the current point, I store all created points in an array and create the polyline at the end using that array. Resulting in a single primitive per spiral.
 
