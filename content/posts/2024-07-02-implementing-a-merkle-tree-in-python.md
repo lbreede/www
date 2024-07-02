@@ -8,7 +8,7 @@ In this article, we will implement a Merkle Tree in Python, a data structure use
 
 A *Merkle Tree* is a binary hash tree that hashes a collection of data blocks so that any change in the original data results in entirely different values throughout the tree. This makes it helpful in verifying the integrity of the data and tracking down changes efficiently through binary traversal.
 
-![An example of a binary hash tree. Hashes 0-0 and 0-1 are the hash values of data blocks L1 and L2, respectively, and hash 0 is the hash of the concatenation of hashes 0-0 and 0-1.](/hash_tree.png)
+![An example of a binary hash tree. Hashes 0-0 and 0-1 are the hash values of data blocks L1 and L2, respectively, and hash 0 is the hash of the concatenation of hashes 0-0 and 0-1.](hash_tree.png)
 
 The leaf nodes contain the hash value of each data block. The nodes are then grouped in pairs, their hashes are concatenated, and the resulting string is hashed again. This process continues until only one node, known as the Merkle Root, is left, marking the culmination of the Merkle Tree.
 
@@ -233,7 +233,7 @@ tx_tree = get_merkle_tree(tx_nodes)
 
 We create our transactions again and wrap their hashes into nodes. We then pass them into our new function and store the result in the variable `tx_tree`.
 
-![Merkle Tree before](/merkle_tree_before.png)
+![Merkle Tree before](merkle_tree_before.png)
 
 ```mermaid  
 graph TD;
@@ -246,7 +246,7 @@ C --> e3d4...9f7f
 
 Revisiting our previous chapter, the verification process begins with the root node's hash value, which starts with `b447` and ends with `cd9e`. Equally important are the 'three leaf nodes' at the bottom, which store the original hash representation of our three transactions. The tree's benefit lies in its ability to display all the branch nodes. Let's now proceed to create another tree with a slightly modified transaction.
 
-![Merkle Tree after](/merkle_tree_after.png)
+![Merkle Tree after](merkle_tree_after.png)
 
 ```mermaid
 graph TD
