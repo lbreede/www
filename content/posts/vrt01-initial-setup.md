@@ -25,5 +25,3 @@ In this particular example, I have a camera set to a 4:3 aspect ratio looking st
 Furthermore, I got a scene geometry where we can throw in whatever we want to see on the final image. A Utah teapot just seems right.
 
 And lastly, an empty geometry container in which the magic happens. Later on, we will go back to the scene to create some custom materials and maybe play with the Normals but for now this is how we are gonna start.
-***
-| [[VEX Ray Tracer 02 - Plane Projection|Plane Projection]] >
