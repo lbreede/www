@@ -1,0 +1,4 @@
+baseURL = 'https://lennartbree.de/'
+languageCode = 'en-us'
+title = 'Lennart Breede'
+theme = 'ananke'
