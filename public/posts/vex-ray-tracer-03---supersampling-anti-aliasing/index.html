@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>VEX Ray Tracer #3: Supersampling Anti-Aliasing | Lennart Breede</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="And we&rsquo;re back. In the last part, we projected three teapots onto our plane and gathered the colour from the teapot&rsquo;s Cd attribute. But what you probably noticed is that our objects have very jagged/pixelated edges.
+That is because every pixel sends only a single ray in a single direction and hitting a single point before it reports back.
+That&rsquo;s where Supersampling comes into play.
+The general idea of supersampling or SSAA (Supersampling Anti-Aliasing) is to instead of using a single ray to gather scene data, using multiple with slightly different offsets and directions.">
+    <meta name="generator" content="Hugo 0.128.0">
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/vex-ray-tracer-03---supersampling-anti-aliasing/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/vex-ray-tracer-03---supersampling-anti-aliasing/">
+  <meta property="og:site_name" content="Lennart Breede">
+  <meta property="og:title" content="VEX Ray Tracer #3: Supersampling Anti-Aliasing">
+  <meta property="og:description" content="And we’re back. In the last part, we projected three teapots onto our plane and gathered the colour from the teapot’s Cd attribute. But what you probably noticed is that our objects have very jagged/pixelated edges.
+That is because every pixel sends only a single ray in a single direction and hitting a single point before it reports back.
+That’s where Supersampling comes into play.
+The general idea of supersampling or SSAA (Supersampling Anti-Aliasing) is to instead of using a single ray to gather scene data, using multiple with slightly different offsets and directions.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-01-23T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-23T00:00:00+00:00">
+
+  <meta itemprop="name" content="VEX Ray Tracer #3: Supersampling Anti-Aliasing">
+  <meta itemprop="description" content="And we’re back. In the last part, we projected three teapots onto our plane and gathered the colour from the teapot’s Cd attribute. But what you probably noticed is that our objects have very jagged/pixelated edges.
+That is because every pixel sends only a single ray in a single direction and hitting a single point before it reports back.
+That’s where Supersampling comes into play.
+The general idea of supersampling or SSAA (Supersampling Anti-Aliasing) is to instead of using a single ray to gather scene data, using multiple with slightly different offsets and directions.">
+  <meta itemprop="datePublished" content="2021-01-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1374">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="VEX Ray Tracer #3: Supersampling Anti-Aliasing">
+  <meta name="twitter:description" content="And we’re back. In the last part, we projected three teapots onto our plane and gathered the colour from the teapot’s Cd attribute. But what you probably noticed is that our objects have very jagged/pixelated edges.
+That is because every pixel sends only a single ray in a single direction and hitting a single point before it reports back.
+That’s where Supersampling comes into play.
+The general idea of supersampling or SSAA (Supersampling Anti-Aliasing) is to instead of using a single ray to gather scene data, using multiple with slightly different offsets and directions.">
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        Lennart Breede
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1">VEX Ray Tracer #3: Supersampling Anti-Aliasing</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2021-01-23T00:00:00Z">January 23, 2021</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p>And we&rsquo;re back. In the last part, we projected three teapots onto our plane and gathered the colour from the teapot&rsquo;s Cd attribute. But what you probably noticed is that our objects have very jagged/pixelated edges.</p>
+<p><img src="03.001.png" alt=""></p>
+<p>That is because every pixel sends only a single ray in a single direction and hitting a single point before it reports back.</p>
+<p>That&rsquo;s where Supersampling comes into play.</p>
+<p>The general idea of supersampling or SSAA (Supersampling Anti-Aliasing) is to instead of using a single ray to gather scene data, using multiple with slightly different offsets and directions. We then add all the gathered information together and average them to a single pixel.</p>
+<p>E.g.: If four rays reach the center teapot, all rays will record green and the average remains green. But once we reach the edge of a teapot, maybe only 2 rays actually hit the teapot and the other two hit the black background. The average will be a darker green resulting in a nicer gradient on edges.</p>
+<p>A problem I encountered the first time I wrote my ray tracer, is that if the resolution of your image is too small, supersampling can cause it to just look blurry so you do need a little bit of resolution on your projection plane.</p>
+<p>One last thing we need to do before we get to coding is choosing a supersampling pattern. We can see some examples of those on <a href="https://en.wikipedia.org/wiki/Supersampling#Supersampling_patterns">Wikipedia</a> (the whole article is very useful and I encourage looking through it for the pictures alone).</p>
+<p><img src="03.002.png" alt=""></p>
+<p>I will show you how to build the grid and the Quincunx (⁙) pattern, plus a custom combination of the two and a little explanation why and when I choose the ones I choose (and if it really matters in the end).</p>
+<p>We did it. Now let&rsquo;s go into Houdini and write some VEX.</p>
+<p><img src="03.003.png" alt=""></p>
+<p>You probably remember from part one that we took each primitive and scaled it down to a single point. Instead of doing that, let&rsquo;s remove the primitive and the fuse SOP and put down a primitive wrangle and do just that with a single line of code.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">addpoint</span>(<span style="color:#ae81ff">0</span>, <span style="color:#960050;background-color:#1e0010">@</span>P);
+</span></span></code></pre></div><p>This simple line of VEX creates a single point in the position of each primitive which is interpolated from all its points and since we are working with squares, it&rsquo;s reliable for us to use. One problem that persists is that the primitives themselves are not being removed. For that, just add another line of VEX.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">removeprim</span>(<span style="color:#ae81ff">0</span>, <span style="color:#960050;background-color:#1e0010">@</span>primnum, <span style="color:#ae81ff">1</span>);
+</span></span></code></pre></div><p>This is now visually identical to our previous method. Unfortunately, if you take a look in our geometry spreadsheet, you will see that the id attribute that we use to later copy the colour back onto our plane is gone.</p>
+<p>Let&rsquo;s shuffle some more stuff around. Remove both the facet and the create_id wrangle from our screen input and replace it with an <em>Enumerate</em> SOP. Make sure the group type is set to Primitive and Attribute is id. Now that we id is on prims, we can easily add it to the new point we created by storing the new point in a variable and using the <code>setpointattrib()</code> function.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>vector primpos <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">@</span>P;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> centerpt <span style="color:#f92672">=</span> <span style="color:#a6e22e">addpoint</span>(<span style="color:#ae81ff">0</span>, primpos);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">setpointattrib</span>(<span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;id&#34;</span>, centerpt, <span style="color:#960050;background-color:#1e0010">@</span>id);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">removeprim</span>(<span style="color:#ae81ff">0</span>, <span style="color:#960050;background-color:#1e0010">@</span>primnum, <span style="color:#ae81ff">1</span>);
+</span></span></code></pre></div><p>Success, now we have one point per pixel with the corresponding ID to later copy over the colour.</p>
+<p><img src="03.004.png" alt=""></p>
+<p>We can now stay in this wrangle to create all the other sample points. Let&rsquo;s start with the Quincunx pattern. One point in the center and one point for each corner of the pixel (see picture above).</p>
+<p>We can use the <code>primpoints()</code> function to get an array of points connected to a primitive and spawn a new point at the same position.</p>
+<blockquote>
+<p>[!tip]
+I like to template my screen (&ldquo;SCREEN&rdquo; <em>Null</em> SOP) to see where the points fall in relation to the pixel.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> cornerpts[] <span style="color:#f92672">=</span> <span style="color:#a6e22e">primpoints</span>(<span style="color:#ae81ff">0</span>, <span style="color:#960050;background-color:#1e0010">@</span>primnum);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">foreach</span> (<span style="color:#66d9ef">int</span> p; cornerpts) {
+</span></span><span style="display:flex;"><span>    vector cornerpos <span style="color:#f92672">=</span> <span style="color:#a6e22e">point</span>(<span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;P&#34;</span>, p);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">addpoint</span>(<span style="color:#ae81ff">0</span>, cornerpos);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Boom, too easy! let&rsquo;s also add that id attribute from the primitive.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>vector primpos <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">@</span>P;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> primid <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">@</span>id;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> centerpt <span style="color:#f92672">=</span> <span style="color:#a6e22e">addpoint</span>(<span style="color:#ae81ff">0</span>, primpos);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">setpointattrib</span>(<span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;id&#34;</span>, centerpt, primid);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> cornerpts[] <span style="color:#f92672">=</span> <span style="color:#a6e22e">primpoints</span>(<span style="color:#ae81ff">0</span>, <span style="color:#960050;background-color:#1e0010">@</span>primnum);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">foreach</span> (<span style="color:#66d9ef">int</span> p; cornerpts)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    vector cornerpos <span style="color:#f92672">=</span> <span style="color:#a6e22e">point</span>(<span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;P&#34;</span>, p);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> cornerpt <span style="color:#f92672">=</span> <span style="color:#a6e22e">addpoint</span>(<span style="color:#ae81ff">0</span>, cornerpos);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setpointattrib</span>(<span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;id&#34;</span>, cornerpt, primid);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">removeprim</span>(<span style="color:#ae81ff">0</span>, <span style="color:#960050;background-color:#1e0010">@</span>primnum, <span style="color:#ae81ff">1</span>);
+</span></span></code></pre></div><p>I also stored the primitive ID in the <code>primid</code> variable. I like to use variables of attributes whenever I use them more than once. Personal preference I guess :)</p>
+<p>Before we tackle the second pattern, let&rsquo;s set up the see this one in action first. We don&rsquo;t need to do anything to the ray tracer since it will just treat the new points as more pixel points.</p>
+<p><img src="03.005.png" alt=""></p>
+<p>In the picture above you can see how some pixels now have multiple different color samples. Now we gotta average them out. Append an Add SOP to after the ray tracer. Navigate to the <strong>Polygons</strong> tab, toggle <strong>By Group</strong>, and set Add to <strong>By Attribute</strong> with Attribute Name ID. We now have a primitive drawn between all points that share the same id. We can now use that single primitive to store the average colour of each point by promoting the attribute.</p>
+<p>Put down an Attribute Promote SOP and promote Cd from point to primitive with the promotion method set to <strong>Average</strong>. You should now see the primitive line change from a gradient colour to one solid one.</p>
+<p>Since earlier we decided to switch from a point to a primitive id, we need to promote our id attribute as well so we can copy over from primitive to primitive. We can do that in the same <em>Attribute Promote</em> SOP since all points on one primitive should have the same ID already (that&rsquo;s how we create them in the first place).</p>
+<p>Wire our new setup into the attribute copy and change the source and destination type to primitive and voilà, we copied the averaged colour to the primitives.</p>
+<p><img src="03.006.png" alt=""></p>
+<p>Woah!</p>
+<p>Okay, let&rsquo;s go back to our sample points and build a little tool to compare and different methods. If you take another look at the patterns above, you can see that the corner points of the grid pattern is half way between the center point and the pixel&rsquo;s corner. It&rsquo;s also missing the center point.</p>
+<p><img src="03.007.png" alt=""></p>
+<p>Let&rsquo;s go through this line after line.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> primid <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">@</span>id;
+</span></span><span style="display:flex;"><span>vector centerpos <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">@</span>P;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> keep_centerpt <span style="color:#f92672">=</span> <span style="color:#a6e22e">chi</span>(<span style="color:#e6db74">&#34;keep_centerpt&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ( keep_centerpt ) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> centerpt <span style="color:#f92672">=</span> <span style="color:#a6e22e">addpoint</span>(<span style="color:#ae81ff">0</span>, centerpos);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setpointattrib</span>(<span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;id&#34;</span>, centerpt, primid);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Nothing new in the first two, but the <code>centerpt</code> creation and setting of the <code>id</code> attribute is now the result of an if-statement that you can toggle in the parameters below the code (see image).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> cornerpts[] <span style="color:#f92672">=</span> <span style="color:#a6e22e">primpoints</span>(<span style="color:#ae81ff">0</span>, <span style="color:#960050;background-color:#1e0010">@</span>primnum);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> bias <span style="color:#f92672">=</span> <span style="color:#a6e22e">ch</span>(<span style="color:#e6db74">&#34;bias&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (bias <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">foreach</span> (<span style="color:#66d9ef">int</span> p; cornerpts) {
+</span></span><span style="display:flex;"><span>        vector cornerpos <span style="color:#f92672">=</span> <span style="color:#a6e22e">lerp</span>(centerpos, <span style="color:#a6e22e">point</span>(<span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;P&#34;</span>, p), bias);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> cornerpt <span style="color:#f92672">=</span> <span style="color:#a6e22e">addpoint</span>(<span style="color:#ae81ff">0</span>, cornerpos);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">setpointattrib</span>(<span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;id&#34;</span>, cornerpt, primid);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">removeprim</span>(<span style="color:#ae81ff">0</span>, <span style="color:#960050;background-color:#1e0010">@</span>primnum, <span style="color:#ae81ff">1</span>);
+</span></span></code></pre></div><p>We create a float slider controlling the bias of linear interpolation inside the foreach-loop. I created it outside the foreach-loop so I can ignore it if it&rsquo;s set to zero since as you can see later is that zero means all four corner points are in the center of the pixel in additionally to the centerpt which makes calculation 5x as slow as it needs to be at this point. We could make that threshold even higher since setting it to 0.001 would trigger the loop and still not really give a different result. I will probably leave it at 0.5 and forget about it. Inside the loop, instead of setting the cornerpos to the pixels corner, we now interpolate between the center and the pixel corner with that bias. Setting it to 0.5 gives us the same result as the grid pattern in the image in the beginning. Now you can play around with the bias and see what you like the most. Lowering the bias makes the edge harder. Removing the center point doesn&rsquo;t make a huge difference but I like having the option.</p>
+<p><img src="03.008.png" alt=""></p>
+<p>We did it! Very cool! Thanks for reading!</p>
+<hr>
+<p>&lt; [[VEX Ray Tracer 02 - Plane Projection|Plane Projection]] | [[VEX Ray Tracer 04 - Blinn-Phong Shading|Blinn-Phong Shading]] &gt;</p>
+<hr>
+<p>References: <a href="https://en.wikipedia.org/wiki/Supersampling">Supersampling - Wikipedia</a></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://localhost:1313/" >
+    &copy;  Lennart Breede 2024 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

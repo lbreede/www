@@ -14,6 +14,18 @@
     <loc>http://localhost:1313/posts/my-first-post/</loc>
     <lastmod>2024-01-14T07:07:07+01:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/posts/vex-ray-tracer-04---blinn-phong-shading/</loc>
+    <lastmod>2021-01-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/vex-ray-tracer-03---supersampling-anti-aliasing/</loc>
+    <lastmod>2021-01-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/vex-ray-tracer-01---initial-setup/</loc>
+    <lastmod>2021-01-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/vex-ray-tracer-02---plane-projection/</loc>
+    <lastmod>2021-01-17T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/categories/</loc>
   </url><url>
     <loc>http://localhost:1313/tags/</loc>
