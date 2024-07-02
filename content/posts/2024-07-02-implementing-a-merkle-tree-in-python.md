@@ -235,34 +235,9 @@ We create our transactions again and wrap their hashes into nodes. We then pass 
 
 ![Merkle Tree before](merkle_tree_before.png)
 
-```mermaid  
-graph TD;
-A[b447...cd9e] --> B[60e8...c485];
-A --> C[3fe5...8cdf];
-B --> 97f2...3c58
-B --> 7d01...c788
-C --> e3d4...9f7f
-```
-
 Revisiting our previous chapter, the verification process begins with the root node's hash value, which starts with `b447` and ends with `cd9e`. Equally important are the 'three leaf nodes' at the bottom, which store the original hash representation of our three transactions. The tree's benefit lies in its ability to display all the branch nodes. Let's now proceed to create another tree with a slightly modified transaction.
 
 ![Merkle Tree after](merkle_tree_after.png)
-
-```mermaid
-graph TD
-A[9e3d...6bf9] --> B[0d16...387c];
-A --> C[3fe5...8cdf];
-B --> D[97f2...3c58];
-B --> E[a70f...0e79]
-C --> F[e3d4...9f7f]
-
-style A fill:red
-style B fill:red
-style C fill:green
-style D fill:green
-style E fill:red
-style F fill:green
-```
 
 Comparing both trees, we can colourize the nodes of this tree green or red, whether or not they match the previous one, our ground truth. This visualization shows us that the second transaction from the left (Bob sending 50 units to Charlie) has been tampered with.
 

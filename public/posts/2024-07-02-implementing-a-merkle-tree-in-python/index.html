@@ -51,7 +51,7 @@ The Merkle Tree A Merkle Tree is a binary hash tree that hashes a collection of 
 The Merkle Tree A Merkle Tree is a binary hash tree that hashes a collection of data blocks so that any change in the original data results in entirely different values throughout the tree.">
   <meta itemprop="datePublished" content="2024-07-02T12:00:00+00:00">
   <meta itemprop="dateModified" content="2024-07-02T12:00:00+00:00">
-  <meta itemprop="wordCount" content="1408">
+  <meta itemprop="wordCount" content="1356">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Implementing a Merkle Tree in Python">
   <meta name="twitter:description" content="In this article, we will implement a Merkle Tree in Python, a data structure used extensively in Blockchain technology and other systems requiring data integrity verification. By the end of this article, you will understand how Merkle Trees work, their benefits, what the Merkle Root is, and how to implement all of this in Python.
@@ -298,28 +298,9 @@ Most of the change happens in the for-loop.</p>
 </span></span><span style="display:flex;"><span>tx_tree <span style="color:#f92672">=</span> get_merkle_tree(tx_nodes)
 </span></span></code></pre></div><p>We create our transactions again and wrap their hashes into nodes. We then pass them into our new function and store the result in the variable <code>tx_tree</code>.</p>
 <p><img src="merkle_tree_before.png" alt="Merkle Tree before"></p>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD;
-A[b447...cd9e] --&gt; B[60e8...c485];
-A --&gt; C[3fe5...8cdf];
-B --&gt; 97f2...3c58
-B --&gt; 7d01...c788
-C --&gt; e3d4...9f7f
-</code></pre><p>Revisiting our previous chapter, the verification process begins with the root node&rsquo;s hash value, which starts with <code>b447</code> and ends with <code>cd9e</code>. Equally important are the &rsquo;three leaf nodes&rsquo; at the bottom, which store the original hash representation of our three transactions. The tree&rsquo;s benefit lies in its ability to display all the branch nodes. Let&rsquo;s now proceed to create another tree with a slightly modified transaction.</p>
+<p>Revisiting our previous chapter, the verification process begins with the root node&rsquo;s hash value, which starts with <code>b447</code> and ends with <code>cd9e</code>. Equally important are the &rsquo;three leaf nodes&rsquo; at the bottom, which store the original hash representation of our three transactions. The tree&rsquo;s benefit lies in its ability to display all the branch nodes. Let&rsquo;s now proceed to create another tree with a slightly modified transaction.</p>
 <p><img src="merkle_tree_after.png" alt="Merkle Tree after"></p>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
-A[9e3d...6bf9] --&gt; B[0d16...387c];
-A --&gt; C[3fe5...8cdf];
-B --&gt; D[97f2...3c58];
-B --&gt; E[a70f...0e79]
-C --&gt; F[e3d4...9f7f]
-
-style A fill:red
-style B fill:red
-style C fill:green
-style D fill:green
-style E fill:red
-style F fill:green
-</code></pre><p>Comparing both trees, we can colourize the nodes of this tree green or red, whether or not they match the previous one, our ground truth. This visualization shows us that the second transaction from the left (Bob sending 50 units to Charlie) has been tampered with.</p>
+<p>Comparing both trees, we can colourize the nodes of this tree green or red, whether or not they match the previous one, our ground truth. This visualization shows us that the second transaction from the left (Bob sending 50 units to Charlie) has been tampered with.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>Whether used for encoding transactions, verifying software updates, or ensuring the integrity of large data sets, the principles behind Merkle Trees highlight their versatility and importance in maintaining data security and reliability.</p>
 <ul class="pa0">
