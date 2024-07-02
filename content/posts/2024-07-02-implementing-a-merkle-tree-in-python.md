@@ -1,6 +1,6 @@
 +++
+date = 2024-07-02T12:00:00
 title = 'Implementing a Merkle Tree in Python'
-date = 2024-07-02T12:00:00-08:00
 +++
 In this article, we will implement a Merkle Tree in Python, a data structure used extensively in Blockchain technology and other systems requiring data integrity verification. By the end of this article, you will understand how Merkle Trees work, their benefits, what the Merkle Root is, and how to implement all of this in Python.
 
