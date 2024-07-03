@@ -249,4 +249,4 @@ Whether used for encoding transactions, verifying software updates, or ensuring 
 
 ***
 
-GitHub Gist: [merkle.py](https://gist.github.com/lbreede/73262238d66802653d59636ea0ad4b74)
+GitHub Gist: [merkle.py](https://gist.github.com/lbreede/73262238d66802653d59636ea0ad4b74) (Python 3.12+)
