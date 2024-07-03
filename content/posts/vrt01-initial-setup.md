@@ -1,6 +1,7 @@
 +++
 date = 2021-01-17T13:00:00
 title = 'VEX Ray Tracer #1: Initial Setup'
+tags = ["houdini", "vex", "raytracer"]
 +++
 No more procrastinating. After thinking about all the different ways to put this on the internet, I decided to start a blog, and this is my first blog post.
 

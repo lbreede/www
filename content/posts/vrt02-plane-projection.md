@@ -1,6 +1,7 @@
 +++
 date = 2021-01-17T16:00:00
 title = 'VEX Ray Tracer #2: Plane Projection'
+tags = ["houdini", "vex", "raytracer"]
 +++
 Now let's get into it. I read in all three elements (plane, camera and scene) into the empty ray_tracer geometry.
 

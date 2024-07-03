@@ -1,7 +1,7 @@
 +++
 date = 2024-07-02T14:00:00
 title = 'Implementing a Merkle Tree in Python'
-tags = ["python"]
+tags = ["python", "algorithm", "hashing"]
 +++
 ## Introduction
 

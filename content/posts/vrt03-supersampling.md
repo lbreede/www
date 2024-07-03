@@ -1,6 +1,7 @@
 +++
 date = 2021-01-23
 title = 'VEX Ray Tracer #3: Supersampling Anti-Aliasing'
+tags = ["houdini", "vex", "raytracer"]
 +++
 And we're back. In the last part, we projected three teapots onto our plane and gathered the colour from the teapot's Cd attribute. But what you probably noticed is that our objects have very jagged/pixelated edges.
 

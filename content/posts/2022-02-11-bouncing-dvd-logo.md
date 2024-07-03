@@ -16,5 +16,7 @@ For [Coding Challenge #131](https://youtu.be/0j86zuqqTlQ), Shiffman successfully
 Here is my version:
 
 ![DVD Example](https://raw.githubusercontent.com/lbreede/4xC/main/131-dvd-logo/dvd_example.gif)
+
 ***
+
 References: [GitHub](https://github.com/lbreede/4xC/tree/main/131-dvd-logo)

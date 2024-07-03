@@ -1,6 +1,7 @@
 +++
 date = 2021-01-30
 title = 'VEX Ray Tracer #4: Blinn-Phong Shading'
+tags = ["houdini", "vex", "raytracer"]
 +++
 How I've been looking forward to this part. When I wrote this ray tracer for the first time, implementing the Blinn–Phong Reflection Model was one of my proudest achievements. Not because it's complicated or anything (it's actually pretty straightforward), but because it was the first time I translated a technical write-up and pseudo-code into something useful for my purpose. It was also the first time where I could've stopped and have a working product.
 
