@@ -4,7 +4,7 @@ title = 'Implementing a Merkle Tree in Python'
 tags = ["python"]
 +++
 
-In this article, we will implement a Merkle Tree in Python, a data structure used extensively in Blockchain technology and other systems requiring data integrity verification. By the end of this article, you will understand how Merkle Trees work, their benefits, what the Merkle Root is, and how to implement all of this in Python.
+In this article, we will implement a *Merkle Tree* in Python, a data structure used extensively in Blockchain technology and other systems requiring data integrity verification. By the end of this article, you will understand how *Merkle Trees* work, their benefits, what the *Merkle Root* is, and how to implement all of this in Python.
 
 ## The Merkle Tree
 
@@ -12,15 +12,15 @@ A *Merkle Tree* is a binary hash tree that hashes a collection of data blocks so
 
 ![An example of a binary hash tree. Hashes 0-0 and 0-1 are the hash values of data blocks L1 and L2, respectively, and hash 0 is the hash of the concatenation of hashes 0-0 and 0-1.](hash_tree.png)
 
-The leaf nodes contain the hash value of each data block. The nodes are then grouped in pairs, their hashes are concatenated, and the resulting string is hashed again. This process continues until only one node, known as the Merkle Root, is left, marking the culmination of the Merkle Tree.
+The leaf nodes contain the hash value of each data block. The nodes are then grouped in pairs, their hashes are concatenated, and the resulting string is hashed again. This process continues until only one node, known as the *Merkle Root*, is left, marking the culmination of the *Merkle Tree*.
 
 ## The Merkle Root
 
-The Merkle Tree's root node contains a hash dependent on all preceding hashes and, therefore, the underlying data blocks. This makes the *Merkle Root* a critical value, the cornerstone of data verification. It's the key to checking and verifying the entire collection of data blocks. In the case of a failing verification, a binary tree traversal can then be utilized to locate the faulty data block. Now, let's delve into how we can implement the Merkle Root in Python.
+The *Merkle Tree*'s root node contains a hash dependent on all preceding hashes and, therefore, the underlying data blocks. This makes the *Merkle Root* a critical value, the cornerstone of data verification. It's the key to checking and verifying the entire collection of data blocks. In the case of a failing verification, a binary tree traversal can then be utilized to locate the faulty data block. Now, let's delve into how we can implement the *Merkle Root* in Python.
 
 ## Implementing the Merkle Root in Python
 
-To generate the Merkle Root in Python, we can create a recursive function that takes a list of hashes as an argument.
+To generate the *Merkle Root* in Python, we can create a recursive function that takes a list of hashes as an argument.
 You can choose any hash function, but in this example, we will extensively use SHA-256, which warrants creating a helper function that takes a string as an argument and returns its SHA-256 hash.
 
 ```python
@@ -123,7 +123,7 @@ def get_tx_merkle_root(txs: list[Tx]) -> str:
     return get_merkle_root(hashes)
 ```
 
-Below, we printed the list of transactions, their hashes and finally, their Merkle Root.
+Below, we printed the list of transactions, their hashes and finally, their *Merkle Root*.
 
 ```bash
 # Transactions
@@ -149,7 +149,7 @@ Below, we printed the list of transactions, their hashes and finally, their Merk
 'b447dbac50e48a16111032928282bf168cfe648b31d628fd0d6198fb2943cd9e'
 ```
 
-If we modify one of the transactions, we will see how one of the transaction hashes changed completely, which in turn changed the Merkle Root.
+If we modify one of the transactions, we will see how one of the transaction hashes changed completely, which in turn changed the *Merkle Root*.
 
 ```bash
 # Transactions
@@ -187,7 +187,7 @@ class MerkleNode:
     right: MerkleNode | None = None
 ```
 
-This function will be very similar to the one creating the Merkle Root.
+This function will be very similar to the one creating the *Merkle Root*.
 
 ```python
 def get_merkle_tree(nodes: list[MerkleNode]) -> MerkleNode:
@@ -245,4 +245,4 @@ Comparing both trees, we can colourize the nodes of this tree green or red, whet
 
 ## Conclusion
 
-Whether used for encoding transactions, verifying software updates, or ensuring the integrity of large data sets, the principles behind Merkle Trees highlight their versatility and importance in maintaining data security and reliability.
+Whether used for encoding transactions, verifying software updates, or ensuring the integrity of large data sets, the principles behind *Merkle Trees* highlight their versatility and importance in maintaining data security and reliability.
