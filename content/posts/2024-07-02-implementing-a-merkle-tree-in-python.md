@@ -246,3 +246,7 @@ Comparing both trees, we can colourize the nodes of this tree green or red, whet
 ## Conclusion
 
 Whether used for encoding transactions, verifying software updates, or ensuring the integrity of large data sets, the principles behind *Merkle Trees* highlight their versatility and importance in maintaining data security and reliability.
+
+***
+
+GitHub Gist: [merkle.py](https://gist.github.com/lbreede/73262238d66802653d59636ea0ad4b74)
