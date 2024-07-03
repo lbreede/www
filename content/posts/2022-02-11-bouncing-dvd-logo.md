@@ -3,7 +3,6 @@ date = 2022-02-11
 title = 'Bouncing DVD Logo'
 tags = ["python", "pygame"]
 +++
-
 An attempt to simulate the "Bouncing DVD Logo" (aka "DVD Screensaver") meme in Python with the pygame library.
 
 Recently, I've gotten more into Python's pygame library during research regarding a new personal project I'll be sharing here soon. That happened roughly simultaneously with my re-discovery of the amazing [The Coding Train](https://www.youtube.com/channel/UCvjgXvBlbQiydffZU7m1_aw) channel on YouTube.
