@@ -1,4 +1,7 @@
 baseURL = 'https://lennartbree.de/'
 languageCode = 'en-us'
 title = 'Lennart Breede'
-theme = 'ananke'
+theme = 'PaperMod'
+[params.homeInfoParams]
+Title = "Moin, Moin 👋"
+Content = "Welcome to my blog about whatever I'm currently interested in."
