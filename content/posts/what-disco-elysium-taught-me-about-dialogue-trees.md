@@ -1,7 +1,7 @@
 +++
 title = 'What Disco Elysium Taught Me About Dialogue Trees'
 date = 2024-07-03T14:43:24-07:00
-draft = true
+draft = false
 tags = ['python', 'gamedev']
 +++
 
@@ -22,6 +22,8 @@ The plan is simple: develop a format for the script that lets me print basic dia
 ## Passthrough Dialogue
 
 ```plaintext
+simple.txt
+
 
 
 1x01
@@ -30,13 +32,13 @@ In the corner, you see a hooded figure sitting alone.
 You approach the figure and sit down across from them.
 -> 1x02
 
-
-
 1x02
         **Potion Seller**
 Hello there, traveller. What can I do for you?
 I have the strongest potions in the land.
 -> 1x03
+
+
 
 
 1x03
@@ -47,9 +49,9 @@ But my potions are too strong for you traveller!
 ```
 
 Above, I wrote three of what I call Passthrough blocks. Their purpose is to break up continuous stories and dialogue without the option for choices and forks. Note a couple of details:
-1. The newlines before, in between, and after the blocks are inconsistent. I think it's always good to have a little bit of a scrambled input (within reason) when developing to account for user mistakes and, in this case, writing styles.
-2. For the block identifier, I chose a mixture of letters and numbers to ensure that both types are handled correctly.
-3. I snuck in some markdown syntax that we can also parse and style using the *colorama* Python library. Feel free to make this a markdown file for a better preview.
+1. The newlines are inconsistent before, in between, and after the blocks. It's always good to have a bit of a scrambled input (within reason) when developing to account for user mistakes and, in this case, writing styles.
+2. I chose a mixture of letters and numbers for the block identifier to ensure that both types are handled correctly.
+3. I snuck in some markdown syntax that we can parse and style using the [*colorama* Python library](https://pypi.org/project/colorama/). Feel free to make this a markdown file for a better preview.
 
 ```python
 # main.py
@@ -79,7 +81,7 @@ def main() -> None:
     # dialogue.run()
 ```
 
-Here is some boilerplate code for creating the *dialogue class* and loading the script. We load in our `simple.txt` file and split it by double newlines, or better, by blocks. Using an if-statement at the beginning of the for-loop, we can account for the inconsistent newlines and keep jumping to the beginning of the loop until we find a valid block. We then return immediately, so we can only worry about the first block for now. We also have a `run()` method that we will use to start the dialogue. But let's not get ahead of ourselves.
+Here is some boilerplate code for creating the *dialogue class* and loading the script. We load in our `simple.txt` file and split it by double newlines, or better, by blocks. Using an if-statement at the beginning of the for-loop, we can account for the inconsistent newlines and keep jumping to the start until we find a valid block. We then return immediately, so we can only worry about the first block for now. We also have a `run()` method that we will use to start the dialogue. But let's not get ahead of ourselves.
 
 Let's modify the `load_script()` method to extract the relevant information from the block.
 
@@ -106,7 +108,7 @@ Let's modify the `load_script()` method to extract the relevant information from
             print(f'Content:\n"{content}"')
 ```
 
-We split the block by newlines and store the first item as the *identifier* and the second as content. We start with this approach since it is shared across all different types of dialogue blocks; everything below is specific to the passthrough kind. In the end, we have three important strings: the block identifier, the target identifier, and the content of the block.
+We split the block by newlines and store the first item as the `identifier` and the second as `content`. We start with this approach since it is shared across all types of dialogue blocks; everything below is specific to the passthrough kind. Ultimately, we have three essential strings: the block identifier, the target identifier, and the block's content.
 
 ```bash
 $ python main.py
@@ -120,7 +122,7 @@ You approach the figure and sit down across from them."
 
 ## What data structure is suitable for this?
 
-Now, we need to store this information to be easily accessed. At first glance, a dictionary, or better, a *TypedDict*, is a good choice. But for this example, I will use a data class. The reason is that in the run phase, we want to check the type of dialogue block to handle passthrough, choices, and dice rolls differently.
+Now, we need to store this information to be easily accessed. At first glance, a dictionary, or better, a `TypedDict`, is a good choice. But for this example, I will use a data class. In the run phase, we want to check the type of dialogue block to handle passthrough, choices, and dice rolls differently.
 
 ```python
 # main.py
@@ -135,7 +137,7 @@ class Passthrough(Block):
         super().__init__(content, {"next": target})
 ```
 
-We create a data class *Block* that stores the content and the targets. Note how the target is a dictionary with "next" as the key and the target as the value. This is because we can have multiple targets, for example, when we have choices. We also create a *Passthrough* class inherited from *Block* with only one target. We will add more classes later on.
+We create a data class `Block()` that stores the content and the targets. Note how the target is a dictionary with `"next"` as the key and the target as the value. This is because we can have multiple targets, for example, when we have choices. We also create a *Passthrough* class inherited from *Block* with only one target. We will add more classes later on.
 
 ```python
 # main.py
@@ -160,7 +162,7 @@ $ python main.py
                      targets={'next': '1x02'})}
 ```
 
-Great! We have our first block stored in our dictionary. Now, we need to implement the `run` method to start the dialogue.
+Great! We have our first block stored in our dictionary. Now, we need to implement the `run()` method to start the dialogue.
 
 ```python
 # main.py
@@ -190,11 +192,11 @@ def main() -> None:
 
 Like all recursive functions, we must be incredibly mindful of our base case.
 
-Our first base case is returning out of the function when we encounter the string "EXIT." We will use "EXIT" for all dialogue branches that end the conversation.
+Our first base case is returning out of the function when we encounter the string *"EXIT."* We will use *"EXIT"* for all dialogue branches that end the conversation.
 
  Our second "base case" throws an error if we encounter an unknown key. This will be useful when we [attempt to jump to a block we still need to create](https://en.wikipedia.org/wiki/Foreshadowing).
 
- We also added a **start** argument to the **run** method to get the conversation started and a seemingly useless input function to pause the dialogue until the player presses enter. We also throw an error if we encounter an unknown block type.
+ We also added a `start` argument to the `run()` method to get the conversation started and a seemingly useless input function to pause the dialogue until the player presses enter. We also throw an error if we encounter an unknown block type.
 
 Let's run this and check out the output.
 
@@ -279,7 +281,7 @@ class Dialogue:
     def fmt_italic(text: str) -> str:
         return re.sub(ITAL_PATTERN, f"{Style.DIM}\\1{Style.RESET_ALL}", text)
 ```
-We create two static methods that identify occurrences of words wrapped in asterisks and replace them with *colorama* styles and colours. This approach is flawed because it only works if we run `fmt_bold` before running `fmt_italic` since, technically, "\*\*this bold string\*\*" would be matched by the italic patterns. But as long as we know it, there's no need to get into the wild world of negative Regex lookups.
+We create two static methods that identify occurrences of words wrapped in asterisks and replace them with *colorama* styles and colours. This approach is flawed because it only works if we run `fmt_bold()` before running `fmt_italic()` since, technically, `**this bold string**` would be matched against the italic patterns. But as long as we know that, there's no need to get into the wild world of negative *RegEx* lookups.
 
 ![](formatted_dialogue.png)
 
