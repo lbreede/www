@@ -7,13 +7,13 @@ tags = ['python', 'gamedev']
 
 ## Introduction
 
-Recently, I played the fantastic 2019 video game *Disco Elysium*, and I was blown away by the sheer amount of dialogue, choices, dice rolls, and consequences. It made me think, "How do you write a dialogue tree like that?"
+Recently, I started playing the fantastic 2019 video game *Disco Elysium*, and I was blown away by the sheer amount of dialogue, choices, dice rolls, and consequences. It made me think, "How do you write a dialogue tree like that?"
 
 ![](disco_elysium_screenshot.jpg)
 
 My immediate first thought was [SCUMM](https://en.wikipedia.org/wiki/SCUMM), or the *Script Creation Utility for Maniac Mansion*, a game engine developed by then Lucasfilm Games for, you guessed it, *Maniac Mansion (1987)*. I remember hearing about it a few years ago and how you could create locations, items, and dialogue sequences without writing code.
 
-Years later, here we are, and without looking at *SCUMM*, *Disco Elysium*'s development, or any other approaches to not get too many outside influences, I will write a dialogue tree from scratch. The idea is to keep the input, aka the script, as human-readable and as close to something like a movie script as possible.
+Years later, here we are, and without looking at *SCUMM*, *Disco Elysium*'s development, or any other approaches to not get too many outside influences, I will write a dialogue tree from scratch. The idea is to keep the input, aka the script, as human-readable and as close to something like a movie screenplay as possible.
 
 ## The Plan
 
@@ -22,72 +22,100 @@ The plan is simple: develop a format for the script that lets me print basic dia
 ## Passthrough Dialogue
 
 ```plaintext
-passthrough.txt
 
-101:
-You walk into a tavern. In the corner, you see a hooded figure sitting alone. You walk up to them.
--> 102
 
-102:
-    **Potion Seller**
-Hello there traveler. What can I do for you?
+1x01
+You enter the tavern, *The Iron Tankard*. 
+In the corner, you see a hooded figure sitting alone. 
+You approach the figure and sit down across from them.
+-> 1x02
+
+
+
+1x02
+        **Potion Seller**
+Hello there, traveller. What can I do for you?
 I have the strongest potions in the land.
+-> 1x03
+
+
+1x03
+        **Potion Seller**
+But my potions are too strong for you traveller!
 -> EXIT
+
 ```
 
-Above, I wrote what I call two Passthrough blocks. Their purpose is to break up continuous dialogue without the option for choices and forks.
+Above, I wrote three of what I call Passthrough blocks. Their purpose is to break up continuous stories and dialogue without the option for choices and forks. Note a couple of details:
+1. The newlines before, in between, and after the blocks are inconsistent. I think it's always good to have a little bit of a scrambled input (within reason) when developing to account for user mistakes and, in this case, writing styles.
+2. For the block identifier, I chose a mixture of letters and numbers to ensure that both types are handled correctly.
+3. I snuck in some markdown syntax that we can also parse and style using the *colorama* Python library. Feel free to make this a markdown file for a better preview.
 
 ```python
 # main.py
 
 class Dialogue:
     def __init__(self) -> None:
-        self.dialog_dict: dict[str, str] = {}
+        self.dialogue_dict: dict[str, Block] = {}
 
     def load_script(self, file: str) -> None:
         with open(file, "r", encoding="utf-8") as fp:
-            for block in fp.read().split("\n\n"):
-                print(block)
-                return
+            text = fp.read()
 
-    def run(self, start: str) -> None:
-        pass
+        for block in text.split("\n\n"):
+            if not block:
+                continue
+                
+            print(block)
+            return
+
+    def run(self) -> None:
+        NotImplemented
 
 
 def main() -> None:
     dialogue = Dialogue()
-    dialogue.load_script("passthrough.txt")
-    dialogue.run()
+    dialogue.load_script("simple.txt")
+    # dialogue.run()
 ```
 
-Some basic code creates a Dialogue object and reads the script file. We load in our `passthrough.txt` file and split it by double newlines, or better, by blocks. We return immediately, so we can only worry about the first block for now. We also have a `run` method that we will use to start the dialogue. But let's not get ahead of ourselves.
+Here is some boilerplate code for creating the *dialogue class* and loading the script. We load in our `simple.txt` file and split it by double newlines, or better, by blocks. Using an if-statement at the beginning of the for-loop, we can account for the inconsistent newlines and keep jumping to the beginning of the loop until we find a valid block. We then return immediately, so we can only worry about the first block for now. We also have a `run` method that we will use to start the dialogue. But let's not get ahead of ourselves.
 
-We modify the `load_script` method to extract the relevant information from the block.
+Let's modify the `load_script` method to extract the relevant information from the block.
 
 ```python
 # main.py
 
+	# --snip--
+
     def load_script(self, file: str) -> None:
         with open(file, "r", encoding="utf-8") as fp:
-            for block in fp.read().split("\n\n"):
-                identifier, *lines, target = block.split("\n")
-                identifier, *_ = identifier.split(":")
-                content = "\n".join(lines)
-                target = target.removeprefix("->").strip()
-                print(f"Identifier: {identifier}, Target: {target}\n")
-                print(f'Content:\n"{content}"')
-                return
+            text = fp.read()
+
+        for block in text.split("\n\n"):
+            if not block:
+                continue
+
+            identifier, content = block.split("\n", 1)
+            
+            lines = content.split("\n")
+            last = lines.pop()
+            content = "\n".join(lines)
+            target = last.split("->")[-1].strip()
+            print(f"Identifier: {identifier!r}, Target: {target!r}\n")
+            print(f'Content:\n"{content}"')
 ```
 
-We split the block by newlines and store the first item as the *identifier* and the last as the *target*. The lines in between are joined together to form the *content*. If we print out our values, we should see the following:
+We split the block by newlines and store the first item as the *identifier* and the second as content. We start with this approach since it is shared across all different types of dialogue blocks; everything below is specific to the passthrough kind. In the end, we have three important strings: the block identifier, the target identifier, and the content of the block.
 
 ```bash
 $ python main.py
-Identifier: 101, Target: 102
+Identifier: '1x01', Target: '1x02'
 
 Content:
-"You walk into a tavern. In the corner, you see a hooded figure sitting alone. 
-You walk up to them."
+"You enter the tavern, *The Iron Tankard*. 
+In the corner, you see a hooded figure sitting alone. 
+You approach the figure and sit down across from them."
 ```
 
 ## What data structure is suitable for this?
@@ -117,17 +145,19 @@ We create a data class *Block* that stores the content and the targets. Note how
                 # --snip--
 
                 block = Passthrough(content, target)
-                self.dialog_dict[identifier] = block
-                pprint(self.dialog_dict)
+                self.dialogue_dict[identifier] = block
+                pprint(self.dialogue_dict)
                 return
 ```
 
 ```bash
 $ python main.py
-{'101': Passthrough(content='You walk into a tavern. In the corner, you see a '
-                            'hooded figure sitting alone. \n'
-                            'You walk up to them.',
-                    target={'next': '102'})}
+{'1x01': Passthrough(content='You enter the tavern, *The Iron Tankard*. \n'
+                             'In the corner, you see a hooded '
+                             'figure sitting alone. \n'
+                             'You approach the figure '
+                             'and sit down across from them.',
+                     targets={'next': '1x02'})}
 ```
 
 Great! We have our first block stored in our dictionary. Now, we need to implement the `run` method to start the dialogue.
@@ -140,23 +170,22 @@ Great! We have our first block stored in our dictionary. Now, we need to impleme
             print("Goodbye!")
             return
 
-        if start not in self.dialog_dict:
+        if start not in self.dialogue_dict:
             raise ValueError(f"Block {start!r} not found")
 
-        block = self.dialog_dict[start]
-        print(block.content)
-        _ = input("\n> Press Enter to continue... \n")
+        block = self.dialogue_dict[start]
 
+        print(block.content)
+        _ = input("\n> Press Enter to continue... ")
+        print()
         if isinstance(block, Passthrough):
-            self.run(block.target["next"])
-        else:
-            raise ValueError(f"Unknown block type {block!r}")
+            self.run(block.targets["next"])
 
 
 def main() -> None:
     dialogue = Dialogue()
-    dialogue.load_script("passthrough.txt")
-    dialogue.run("101")
+    dialogue.load_script("simple.txt")
+    dialogue.run("1x01")
 ```
 
 Like all recursive functions, we must be incredibly mindful of our base case.
@@ -171,35 +200,88 @@ Let's run this and check out the output.
 
 ```
 $ python main.py
-You walk into a tavern. In the corner, you see a hooded figure sitting alone. 
+You enter the tavern, *The Iron Tankard*. 
+In the corner, you see a hooded figure sitting alone. 
 You approach the figure and sit down across from them.
 
 > Press Enter to continue... 
 
 Traceback (most recent call last):
 [...]
-ValueError: Block '102' not found
+ValueError: Block '1x02' not found
 ```
 
 The beginning looks promising! The content gets printed, and after pressing enter, the next block is loaded, or at least it tries to. Currently, we are getting an error because, remember, we put a **return** in the **load_script** method. Let's remove that and try again.
 
 ```
 $ python main.py
-You walk into a tavern. In the corner, you see a hooded figure sitting alone. 
+You enter the tavern, *The Iron Tankard*. 
+In the corner, you see a hooded figure sitting alone. 
 You approach the figure and sit down across from them.
 
 > Press Enter to continue... 
 
-    **Potion Seller**
-Hello there traveler. What can I do for you?
+        **Potion Seller**
+Hello there, traveller. What can I do for you?
 I have the strongest potions in the land.
+
+> Press Enter to continue... 
+
+        **Potion Seller**
+But my potions are too strong for you traveller!
 
 > Press Enter to continue... 
 
 Goodbye!
 ```
 
-Fantastic. We have a basic dialogue system that can handle passthrough blocks. In the next part, we will add choices and dice rolls. 
+Fantastic. We have a basic dialogue system that can handle passthrough blocks. 
+I will quickly create two helper functions that style the words wrapped in markdown syntax.
+
+```python
+import re
+
+import colorama
+from colorama import Style
+from colorama import Fore
+
+colorama.init(autoreset=True)
+
+CHOICE_SEP = "-*-"
+BOLD_PATTERN = re.compile(r"\*{2}(.*?)\*{2}")
+ITAL_PATTERN = re.compile(r"\*{1}(.*?)\*{1}")
+
+# --snip--
+
+class Dialogue:
+
+	# --snip--
+	
+    def load_script(self, file: str) -> None:
+
+			# --snip--
+
+            content = self.fmt_bold(content)
+            content = self.fmt_italic(content)
+
+            block = Passthrough(content, target)
+            self.dialogue_dict[identifier] = block
+
+    @staticmethod
+    def fmt_bold(text: str) -> str:
+        return re.sub(
+            BOLD_PATTERN,
+            f"{Style.BRIGHT}{Fore.GREEN}\\1{Style.RESET_ALL}",
+            text,
+        )
+
+    @staticmethod
+    def fmt_italic(text: str) -> str:
+        return re.sub(ITAL_PATTERN, f"{Style.DIM}\\1{Style.RESET_ALL}", text)
+```
+We create two static methods that identify occurrences of words wrapped in asterisks and replace them with *colorama* styles and colours. This approach is flawed because it only works if we run `fmt_bold` before running `fmt_italic` since, technically, "\*\*this bold string\*\*" would be matched by the italic patterns. But as long as we know it, there's no need to get into the wild world of negative Regex lookups.
+
+Fantastic! In the next part, we will add choices and dice rolls. 
 
 Stay tuned! 🎲
 ***
