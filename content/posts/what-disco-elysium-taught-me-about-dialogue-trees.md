@@ -79,9 +79,9 @@ def main() -> None:
     # dialogue.run()
 ```
 
-Here is some boilerplate code for creating the *dialogue class* and loading the script. We load in our `simple.txt` file and split it by double newlines, or better, by blocks. Using an if-statement at the beginning of the for-loop, we can account for the inconsistent newlines and keep jumping to the beginning of the loop until we find a valid block. We then return immediately, so we can only worry about the first block for now. We also have a `run` method that we will use to start the dialogue. But let's not get ahead of ourselves.
+Here is some boilerplate code for creating the *dialogue class* and loading the script. We load in our `simple.txt` file and split it by double newlines, or better, by blocks. Using an if-statement at the beginning of the for-loop, we can account for the inconsistent newlines and keep jumping to the beginning of the loop until we find a valid block. We then return immediately, so we can only worry about the first block for now. We also have a `run()` method that we will use to start the dialogue. But let's not get ahead of ourselves.
 
-Let's modify the `load_script` method to extract the relevant information from the block.
+Let's modify the `load_script()` method to extract the relevant information from the block.
 
 ```python
 # main.py
@@ -211,7 +211,7 @@ Traceback (most recent call last):
 ValueError: Block '1x02' not found
 ```
 
-The beginning looks promising! The content gets printed, and after pressing enter, the next block is loaded, or at least it tries to. Currently, we are getting an error because, remember, we put a **return** in the **load_script** method. Let's remove that and try again.
+The beginning looks promising! The content gets printed, and after pressing enter, the next block is loaded, or at least it tries to. Currently, we are getting an error because, remember, we put a **return** in the `load_script()` method. Let's remove that and try again.
 
 ```
 $ python main.py
@@ -280,6 +280,8 @@ class Dialogue:
         return re.sub(ITAL_PATTERN, f"{Style.DIM}\\1{Style.RESET_ALL}", text)
 ```
 We create two static methods that identify occurrences of words wrapped in asterisks and replace them with *colorama* styles and colours. This approach is flawed because it only works if we run `fmt_bold` before running `fmt_italic` since, technically, "\*\*this bold string\*\*" would be matched by the italic patterns. But as long as we know it, there's no need to get into the wild world of negative Regex lookups.
+
+![](formatted_dialogue.png)
 
 Fantastic! In the next part, we will add choices and dice rolls. 
 

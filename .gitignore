@@ -14,3 +14,6 @@ hugo.linux
 
 # Obsidian, duh.
 .obsidian/
+
+# MacOS shenanigans
+.DS_Store
